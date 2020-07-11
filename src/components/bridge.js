@@ -1,29 +1,30 @@
 import React from 'react';
 import './bridge.css';
+import { CommsLog } from '.';
 
 export const Bridge = props => {
     return (
         <div className='bridge'>
-            <div className="cell comms">
-                Communications Log
+            <div className="cell-no-top comms">
+                <CommsLog />
             </div>
             <div className="cell sensors">
-                Sensor Control
+                Sciences
             </div>
             <div className="cell shields">
-                Shield Control
+                Shields
             </div>
             <div className="cell warp">
-                Warp Drive Control
+                Warp Drive
             </div>
-            <div className="cell computer">
+            <div className="cell-no-bottom  computer">
                 Library Computer
             </div>
-            <div className="cell phasars">
-                Phaser Control
+            <div className="cell-no-bottom  phasars">
+                Phaser
             </div>
-            <div className="cell torpedos">
-                Photon Torpedo Control
+            <div className="cell-no-bottom  torpedos">
+                Photon Torpedo
             </div>
         </div >
     );
