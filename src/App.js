@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { GameContext } from './GameContext';
+import { GameContext, PlayerContext, Bridge } from './components';
+import { newGame, newPlayer } from 'star-trek-game';
 
 function App() {
-  const [state, setState] = useState({});
+  const [game, setGame] = useState(newGame());
+  const [player, setPlayer] = useState(newPlayer());
+
   return (
     <div className="App">
-      <GameContext.Provider value={{ context: state, updateContext: setState }}>
-        hello world
+      <GameContext.Provider value={{ game, setGame }}>
+        <PlayerContext.Provider value={{ player, setPlayer }}>
+          <Bridge />
+        </PlayerContext.Provider>
       </GameContext.Provider>
     </div>
   );

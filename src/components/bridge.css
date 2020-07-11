@@ -1,0 +1,86 @@
+.bridge {
+  height: 95vh;
+  display: grid;
+  grid-gap: 8px;
+  padding: 6px;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 20% 40% 40%;
+  grid-template-areas:
+    "comms comms comms comms comms comms comms comms"
+    "sensors sensors sensors warp warp warp shields shields"
+    "computer computer computer computer torpedos torpedos phasars phasars";
+}
+
+.cell {
+  border: 4px solid black;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.bridge .comms {
+  grid-area: comms;
+  overflow: auto;
+}
+
+.bridge .sensors {
+  grid-area: sensors;
+}
+
+.bridge .shields {
+  grid-area: shields;
+}
+
+.bridge .warp {
+  grid-area: warp;
+}
+
+.bridge .computer {
+  grid-area: computer;
+}
+
+.bridge .phasars {
+  grid-area: phasars;
+}
+
+.bridge .torpedos {
+  grid-area: torpedos;
+}
+
+button {
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  height: 2rem;
+  font-size: 0.8rem;
+}
+
+.frame {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.frame .controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.frame .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.frame .item {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.headingGrid {
+  display: grid;
+  grid-template-columns: 2em 2em 2em;
+  grid-template-rows: 2em 2em 2em;
+}
