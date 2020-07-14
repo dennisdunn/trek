@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { newGame, newPlayer } from 'star-trek-game';
-import { Bridge, GameContext, PlayerContext } from './components';
-import cloneDeep from 'lodash.clonedeep';
+import React, { useState } from 'react'
+import { newGame, newShip } from 'star-trek-game'
+import { Bridge, GameContext, PlayerContext } from './components'
 
-function App() {
-  const [game, setGame] = useState(newGame());
-  const [player, setPlayer] = useState(newPlayer());
+function App () {
+  const [game, setGame] = useState(newGame())
+  const [ship, setShip] = useState(newShip())
 
   // player.log.push("SCOTTY: I'donna tink she'll make it!");
   // player.log.push("MCCOY: Spock, you green-blooded, pointy-eared...");
@@ -14,14 +13,14 @@ function App() {
   // player.log.push("SCOTTY: Is'a no one listening? The warp core is overloading! Shes'a gonna' blow!");
 
   return (
-    <div className="App">
+    <div className='App'>
       <GameContext.Provider value={{ game, setGame }}>
-        <PlayerContext.Provider value={{ player, setPlayer }}>
+        <PlayerContext.Provider value={{ ship, setShip }}>
           <Bridge />
         </PlayerContext.Provider>
       </GameContext.Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

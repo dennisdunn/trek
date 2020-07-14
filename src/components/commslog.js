@@ -13,7 +13,7 @@ export const CommsLog = props => {
 
     return (
         <PlayerContext.Consumer >
-            {({ player }) => list(player.log)}
+            {({ ship }) => list(ship.log)}
         </PlayerContext.Consumer>
     );
 }

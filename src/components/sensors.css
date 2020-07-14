@@ -1,0 +1,11 @@
+.sensors {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.sensors .controls {
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
