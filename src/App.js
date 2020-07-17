@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { newGame, newShip } from 'star-trek-game'
+import { newGame, newShip } from 'trek-engine'
 import { Bridge, GameContext, PlayerContext } from './components'
 
-function App () {
+function App() {
   const [game, setGame] = useState(newGame())
   const [ship, setShip] = useState(newShip())
 

@@ -1,20 +1,18 @@
 .bridge {
-  height: 95vh;
+  height: 90vh;
   display: grid;
-  grid-gap: 8px;
-  padding: 6px;
+  grid-gap: 16px;
+  margin: 8px;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: 20% 40% 40%;
   grid-template-areas:
-    'comms comms comms comms comms comms comms comms'
-    'sensors sensors sensors warp warp warp shields shields'
-    'computer computer computer computer torpedos torpedos phasars phasars';
+    'comms comms comms comms status status status status'
+    'sensors sensors sensors sensors warp warp shields shields'
+    'sensors sensors sensors sensors torpedos torpedos phasers phasers';
 }
 
 .cell {
-  border-top: 1rem solid black;
-  border-bottom: 0.75rem solid black;
-  border-left: 2rem solid black;
+  border: 1rem solid #f90;
   border-radius: 2rem;
   padding: 4px;
   position: relative;
@@ -28,6 +26,11 @@
   border-bottom: none;
 }
 
+.cell.bracket {
+  border-top: none;
+  border-bottom: none;
+}
+
 .cell-title {
   font-size: 0.75rem;
   position: absolute;
@@ -38,8 +41,7 @@
 .bridge .comms {
   grid-area: comms;
   overflow: hidden;
-  display: flex;
-  flex-direction: column-reverse;
+  border-right: none;
 }
 
 .bridge .sensors {
@@ -48,22 +50,34 @@
 
 .bridge .shields {
   grid-area: shields;
+  border-right: none;
 }
 
 .bridge .warp {
   grid-area: warp;
+  border-right: none;
 }
 
-.bridge .computer {
-  grid-area: computer;
+.bridge .status {
+  grid-area: status;
+  border-right: none;
 }
 
-.bridge .phasars {
-  grid-area: phasars;
+.bridge .phasers {
+  grid-area: phasers;
+  border-right: none;
 }
 
 .bridge .torpedos {
   grid-area: torpedos;
+  border-right: none;
+}
+
+.bridge .flex-centered {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0px;
 }
 
 button {
@@ -72,31 +86,6 @@ button {
   margin-bottom: 8px;
   height: 2rem;
   font-size: 0.8rem;
-}
-
-.frame {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.frame .controls {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.frame .content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.frame .item {
-  display: grid;
-  justify-items: center;
-  align-items: center;
 }
 
 .headingGrid {
