@@ -1,7 +1,8 @@
 .bridge {
+  font-size: 1.2rem;
   height: 90vh;
   display: grid;
-  grid-gap: 16px;
+  grid-gap: 24px;
   margin: 8px;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: 20% 40% 40%;
@@ -32,7 +33,6 @@
 }
 
 .cell-title {
-  font-size: 0.75rem;
   position: absolute;
   right: 2rem;
   z-index: 1000;
@@ -81,15 +81,26 @@
 }
 
 button {
-  border: 1px solid gray;
-  border-radius: 4px;
-  margin-bottom: 8px;
+  border: none;
+  border-radius: 0px 16px 16px 0px;
+  margin-bottom: 16px;
   height: 2rem;
-  font-size: 0.8rem;
+  width: 5em;
+  display: block;
+  font-family: lcars;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-.headingGrid {
-  display: grid;
-  grid-template-columns: 2em 2em 2em;
-  grid-template-rows: 2em 2em 2em;
+button:hover {
+  background-color: lightgray;
+}
+
+.button-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  left: 0px;
+  top: 25px;
 }

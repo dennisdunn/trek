@@ -29,7 +29,7 @@ export const Marker = ({ src, position, size, onClick }) => {
                     transform: `translate(${x}px, ${y}px)`
                 };
                 return (
-                    <img src={src} style={styles} onClick={handleClick} title={`Range: ${position.r} Bearing: ${position.theta}`} alt='' />
+                    <img src={src} style={styles} onClick={handleClick} title={`Range: ${position.r.toFixed(2)} Bearing: ${position.theta.toFixed(3)}`} alt='' />
                 );
             }}
 
