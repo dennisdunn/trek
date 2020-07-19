@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayerContext } from '.';
+import { Context } from '.';
 
 export const CommsLog = props => {
     const list = arr => {
@@ -12,8 +12,8 @@ export const CommsLog = props => {
     }
 
     return (
-        <PlayerContext.Consumer >
+        <Context.Consumer >
             {({ ship }) => list(ship.log)}
-        </PlayerContext.Consumer>
+        </Context.Consumer>
     );
 }

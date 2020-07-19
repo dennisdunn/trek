@@ -50,7 +50,8 @@ const styles = {
         display: 'block',
         fontFamily: 'okuda',
         fontSize: '1rem',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        zIndex: 2000
     }
 
     //   button: hover {

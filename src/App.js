@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { newGame, newShip } from 'trek-engine'
-import { Bridge, GameContext, PlayerContext } from './components'
+import { initGameState, initSectors, initShip } from 'trek-engine'
+import { Bridge, Context } from './components'
 
 function App() {
-  const [game, setGame] = useState(newGame())
-  const [ship, setShip] = useState(newShip())
+  const [game, setGame] = useState(initGameState())
+  const [ship, setShip] = useState(initShip())
+  const sectors = initSectors()
 
   // player.log.push("SCOTTY: I'donna tink she'll make it!");
   // player.log.push("MCCOY: Spock, you green-blooded, pointy-eared...");
@@ -14,11 +15,9 @@ function App() {
 
   return (
     <div className='App'>
-      <GameContext.Provider value={{ game, setGame }}>
-        <PlayerContext.Provider value={{ ship, setShip }}>
-          <Bridge />
-        </PlayerContext.Provider>
-      </GameContext.Provider>
+      <Context.Provider value={{ game, setGame, ship, setShip, sectors }}>
+        <Bridge />
+      </Context.Provider>
     </div>
   )
 }
