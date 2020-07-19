@@ -1,0 +1,41 @@
+.bridge {
+  height: 90vh;
+  display: grid;
+  grid-gap: 24px;
+  margin: 8px;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: 20% 40% 40%;
+  grid-template-areas:
+    'comms comms comms comms status status status status'
+    'sensors sensors sensors sensors warp warp shields shields'
+    'sensors sensors sensors sensors torpedos torpedos phasers phasers';
+}
+
+.bridge .comms {
+  grid-area: comms;
+  overflow: hidden;
+}
+
+.bridge .sensors {
+  grid-area: sensors;
+}
+
+.bridge .shields {
+  grid-area: shields;
+}
+
+.bridge .warp {
+  grid-area: warp;
+}
+
+.bridge .status {
+  grid-area: status;
+}
+
+.bridge .phasers {
+  grid-area: phasers;
+}
+
+.bridge .torpedos {
+  grid-area: torpedos;
+}

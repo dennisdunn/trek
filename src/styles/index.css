@@ -22,14 +22,9 @@
   src: url('/assets/Okuda Italic.otf') format('opentype');
 }
 
-@font-face {
-  font-family: lcars;
-  src: url('/assets/lcars.ttf') format('truetype');
-}
-
 body {
   margin: 0;
-  font-family: lcars, okuda, 'Segoe UI', 'Roboto', 'Ubuntu', 'Droid Sans',
+  font-family: okuda, 'Segoe UI', 'Roboto', 'Ubuntu', 'Droid Sans',
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
