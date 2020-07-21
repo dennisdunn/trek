@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { colors, ElementLayer, FederationShipMarker, GraphicsLayer } from '.';
+import { colors, MarkerLayer, FederationShipMarker, GraphicsLayer, SpriteLayer, Sprite } from '.';
 
 const drawAxis = graphics => {
     const halfW = graphics.canvas.width / 2;
@@ -61,10 +61,13 @@ const drawSectors = graphics => {
 export const SrsDisplay = ({ markers, ...rest }) => {
     return (<Fragment>
         <GraphicsLayer draw={drawSectorGrid} />
-        <ElementLayer {...rest}>
+        {/* <MarkerLayer {...rest}>
             <FederationShipMarker position={{ r: 0, theta: 0 }} />
             {markers}
-        </ElementLayer>
+        </MarkerLayer> */}
+        <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png'>
+            <Sprite />
+        </SpriteLayer>
     </Fragment>
     );
 }
@@ -74,10 +77,10 @@ export const LrsDisplay = ({ markers, ...rest }) => {
         <Fragment>
             <GraphicsLayer draw={drawGalacticGrid} />
             <GraphicsLayer draw={drawSectors} />
-            <ElementLayer {...rest}>
+            <MarkerLayer {...rest}>
                 <FederationShipMarker position={{ r: 0, theta: 0 }} />
                 {markers}
-            </ElementLayer>
+            </MarkerLayer>
         </Fragment>
     );
 }

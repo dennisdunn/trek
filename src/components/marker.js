@@ -7,6 +7,24 @@ const KLINGON_SHIP = '/images/icons8-star-trek-klingon-ship-50.png';
 const STAR = '/images/icons8-star-50.png';
 const BASE = '/images/icons8-military-base-50.png';
 
+const styles = {
+    position: 'absolute',
+    top: 0,
+    left: 0
+};
+
+export const MarkerLayer = ({ children, ...rest }) => {
+    return (
+        <DisplayContext.Consumer>
+            {
+                ({ width, height }) => (<div style={styles} width={width} height={height} {...rest}>
+                    {children}
+                </div>)
+            }
+        </DisplayContext.Consumer>
+    )
+}
+
 export const Marker = ({ src, position, size, onClick }) => {
     const handleClick = () => {
         if (onClick) {
