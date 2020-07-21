@@ -39,13 +39,13 @@ export const Marker = ({ src, position, size, onClick }) => {
 
 export const FederationShipMarker = props => {
     return (
-        <Marker {...props} src={FEDERATION_SHIP} size={50} />
+        <Marker {...props} src={FEDERATION_SHIP} size={30} />
     );
 }
 
 export const KlingonShipMarker = props => {
     return (
-        <Marker {...props} src={KLINGON_SHIP} size={50} />
+        <Marker {...props} src={KLINGON_SHIP} size={30} />
     );
 }
 
