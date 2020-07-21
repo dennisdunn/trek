@@ -50,7 +50,6 @@ export const Marker = ({ src, position, size, onClick }) => {
                     <img src={src} style={styles} onClick={handleClick} title={`Range: ${position.r.toFixed(2)} Bearing: ${position.theta.toFixed(3)}`} alt='' />
                 );
             }}
-
         </DisplayContext.Consumer>
     );
 }

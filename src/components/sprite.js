@@ -26,6 +26,39 @@ const getSpritePosition = (key, size, width, height) => {
 
 export const SpriteContext = createContext({});
 
+export const Spritesheet = ({ src, size = 50, children }) => {
+    const [sheet, setSheet] = useState(new Image());
+    useEffect(() => {
+        loadImage(src).then(setSheet);
+    }, [src])
+
+    return (
+        <SpriteContext.Provider value={{ sheet: sheet, size: size }}>
+            <Fragment>{children}</Fragment>
+        </SpriteContext.Provider>
+    )
+}
+
+export const SpriteMarker = ({ key = 0, scale = 1.0, position = { r: 0, theta: 0 } }) => {
+    return (
+        <SpriteContext.Consumer>
+            {({ sheet, size }) => {
+                const { x, y } = toRect(position);
+                const { spriteX, spriteY } = getSpritePosition(key, size, sheet.width, sheet.height);
+
+                // extract the sprite from the sheet as an Image() object
+                // set scaling, title, handlers on the sprite
+                // return the sprite
+
+
+                // const ctx = canvas.current.getContext('2d');
+                // ctx.drawImage(sheet, spriteX, spriteY, size, size, x - scale * size / 2, y - scale * size / 2, scale * size, scale * size);
+
+            }}
+        </SpriteContext.Consumer>
+    )
+}
+
 export const SpriteLayer = ({ src, size = 50, children, ...rest }) => {
     const [sprites, setSprites] = useState(new Image());
     const canvas = useRef();
