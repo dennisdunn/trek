@@ -65,8 +65,8 @@ export const SrsDisplay = ({ markers, ...rest }) => {
             <FederationShipMarker position={{ r: 0, theta: 0 }} />
             {markers}
         </MarkerLayer> */}
-        <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png'>
-            <Sprite />
+        <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
+            <Sprite scale={0.7} />
         </SpriteLayer>
     </Fragment>
     );

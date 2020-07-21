@@ -6,7 +6,6 @@ import { Context, Display, Frame, FrameButton, FrameButtonBar, FrameTitle, Kling
 const drawMarkers = (objs = []) => {
     let key = 0;
     const maxR = Math.max(...objs.map(o => o.position.r));
-    console.log(objs.map(o => o.position.r))
 
     const markers = objs.map(o => {
         const pos = Vector.Polar.scale(o.position, maxR * o.position.r);
