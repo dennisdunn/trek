@@ -1,6 +1,6 @@
 import { toRect } from 'coordinates';
 import React, { createContext, Fragment, useEffect, useRef, useState } from 'react';
-import { DisplayContext } from '.';
+import { DisplayContext, initializeCanvas } from '.';
 
 const loadImage = url => {
     return new Promise((resolve, reject) => {
@@ -33,46 +33,19 @@ export const Spritesheet = ({ src, size = 50, children }) => {
     }, [src])
 
     return (
-        <SpriteContext.Provider value={{ sheet: sheet, size: size }}>
-            <Fragment>{children}</Fragment>
+        <SpriteContext.Provider value={{ sheet, size }}>
+            {children}
         </SpriteContext.Provider>
     )
 }
 
-export const SpriteMarker = ({ key = 0, scale = 1.0, position = { r: 0, theta: 0 } }) => {
-    return (
-        <SpriteContext.Consumer>
-            {({ sheet, size }) => {
-                const { x, y } = toRect(position);
-                const { spriteX, spriteY } = getSpritePosition(key, size, sheet.width, sheet.height);
-
-                // extract the sprite from the sheet as an Image() object
-                // set scaling, title, handlers on the sprite
-                // return the sprite
-
-
-                // const ctx = canvas.current.getContext('2d');
-                // ctx.drawImage(sheet, spriteX, spriteY, size, size, x - scale * size / 2, y - scale * size / 2, scale * size, scale * size);
-
-            }}
-        </SpriteContext.Consumer>
-    )
-}
-
-export const SpriteLayer = ({ src, size = 50, children, ...rest }) => {
+export const SpriteLayer = ({ src, size = 50, children }) => {
     const [sprites, setSprites] = useState(new Image());
     const canvas = useRef();
-    const styles = {
-        position: 'absolute',
-        top: 0,
-        left: 0
-    }
 
     useEffect(() => {
+        initializeCanvas(canvas.current.getContext('2d'));
         loadImage(src).then(setSprites);
-
-        const ctx = canvas.current.getContext('2d');
-        ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
     }, [src])
 
     return (
@@ -80,9 +53,9 @@ export const SpriteLayer = ({ src, size = 50, children, ...rest }) => {
             {
                 ({ height, width }) => (
                     <Fragment>
-                        <canvas style={styles} width={width} height={height} ref={canvas} {...rest}></canvas>
-                        <SpriteContext.Provider value={{ sheet: sprites, canvas: canvas, size: size }}>
-                            <Fragment>{children}</Fragment>
+                        <canvas style={{ position: 'absolute', top: 0, left: 0 }} width={width} height={height} ref={canvas}></canvas>
+                        <SpriteContext.Provider value={{ sprites, canvas, size }}>
+                            {children}
                         </SpriteContext.Provider>
                     </Fragment>
                 )
@@ -94,12 +67,12 @@ export const SpriteLayer = ({ src, size = 50, children, ...rest }) => {
 export const Sprite = ({ key = 0, scale = 1.0, position = { r: 0, theta: 0 } }) => {
     return (
         <SpriteContext.Consumer>
-            {({ sheet, size, canvas }) => {
+            {({ sprites, canvas, size }) => {
                 if (canvas.current) {
                     const { x, y } = toRect(position);
-                    const { spriteX, spriteY } = getSpritePosition(key, size, sheet.width, sheet.height);
+                    const { spriteX, spriteY } = getSpritePosition(key, size, sprites.width, sprites.height);
                     const ctx = canvas.current.getContext('2d');
-                    ctx.drawImage(sheet, spriteX, spriteY, size, size, x - scale * size / 2, y - scale * size / 2, scale * size, scale * size);
+                    ctx.drawImage(sprites, spriteX, spriteY, size, size, x - scale * size / 2, y - scale * size / 2, scale * size, scale * size);
                 }
             }}
         </SpriteContext.Consumer>

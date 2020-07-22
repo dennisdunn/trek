@@ -17,7 +17,7 @@ const drawMarkers = (objs = []) => {
             case 'base':
                 return (<StarbaseMarker position={pos} key={key++} />)
             default:
-                break;
+                throw new Error('unknown galactic object type')
         }
     })
 

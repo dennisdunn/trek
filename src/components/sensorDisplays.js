@@ -1,83 +1,84 @@
 import React, { Fragment } from 'react';
-import { colors, MarkerLayer, FederationShipMarker, GraphicsLayer, SpriteLayer, Sprite } from '.';
+import { colors, MarkerLayer, FederationShipMarker, Graphics, SpriteLayer, Sprite, Layer } from '.';
 
-const drawAxis = graphics => {
-    const halfW = graphics.canvas.width / 2;
-    const halfH = graphics.canvas.height / 2;
+const drawAxis = ctx => {
+    const halfW = ctx.canvas.width / 2;
+    const halfH = ctx.canvas.height / 2;
 
-    graphics.beginPath();
-    graphics.moveTo(0, 0);
-    graphics.lineTo(0, halfH);
-    graphics.moveTo(0, 0);
-    graphics.lineTo(0, -halfH);
-    graphics.moveTo(0, 0);
-    graphics.lineTo(halfW, 0);
-    graphics.moveTo(0, 0);
-    graphics.lineTo(-halfW, 0);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, halfH);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -halfH);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(halfW, 0);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-halfW, 0);
 
-    graphics.stroke();
+    ctx.stroke();
 }
 
-const drawGalacticGrid = graphics => {
-    graphics.strokeStyle = 'white';
-    drawAxis(graphics);
+const drawGalacticGrid = ctx => {
+    ctx.strokeStyle = 'white';
+    drawAxis(ctx);
 
-    graphics.beginPath();
+    ctx.beginPath();
     for (let i = 1; i <= 4; i++) {
         const r = 225 * Math.sqrt(i / 4)
-        graphics.arc(0, 0, r, 0, 2 * Math.PI)
+        ctx.arc(0, 0, r, 0, 2 * Math.PI)
     }
-    graphics.stroke();
+    ctx.stroke();
 }
 
-const drawSectorGrid = graphics => {
-    graphics.strokeStyle = 'white';
-    drawAxis(graphics);
+const drawSectorGrid = ctx => {
+    ctx.strokeStyle = 'white';
+    drawAxis(ctx);
 
-    graphics.beginPath();
-    graphics.moveTo(0, 0);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
     for (let i = 1; i <= 4; i++) {
         const r = 225 * 0.25 * i;
-        graphics.arc(0, 0, r, 0, 2 * Math.PI)
+        ctx.arc(0, 0, r, 0, 2 * Math.PI)
     }
-    graphics.stroke();
+    ctx.stroke();
 }
 
-const drawSectors = graphics => {
+const drawSectors = ctx => {
 
     const arc = 2 * Math.PI / 16;
-    graphics.strokeStyle = 'none';
+    ctx.strokeStyle = 'none';
     for (let i = 0; i < 16; i++) {
         const color = colors[i % colors.length];
-        graphics.moveTo(0, 0);
-        graphics.beginPath();
-        graphics.arc(0, 0, 225, i * arc, (i + 1) * arc);
-        graphics.lineTo(0, 0);
-        graphics.fillStyle = color + 'c';
-        graphics.fill();
+        ctx.moveTo(0, 0);
+        ctx.beginPath();
+        ctx.arc(0, 0, 225, i * arc, (i + 1) * arc);
+        ctx.lineTo(0, 0);
+        ctx.fillStyle = color + 'c';
+        ctx.fill();
     }
 }
 
-export const SrsDisplay = ({ markers, ...rest }) => {
-    return (<Fragment>
-        <GraphicsLayer draw={drawSectorGrid} />
-        {/* <MarkerLayer {...rest}>
-            <FederationShipMarker position={{ r: 0, theta: 0 }} />
-            {markers}
-        </MarkerLayer> */}
-        <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
-            <Sprite scale={0.7} />
-        </SpriteLayer>
-    </Fragment>
+export const SrsDisplay = ({ markers }) => {
+    return (
+        <Fragment>
+            <Layer>
+                <Graphics draw={drawSectorGrid} reset />
+            </Layer>
+            <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
+                <Sprite scale={0.7} />
+            </SpriteLayer>
+        </Fragment>
     );
 }
 
-export const LrsDisplay = ({ markers, ...rest }) => {
+export const LrsDisplay = ({ markers }) => {
     return (
         <Fragment>
-            <GraphicsLayer draw={drawGalacticGrid} />
-            <GraphicsLayer draw={drawSectors} />
-            <MarkerLayer {...rest}>
+            <Layer>
+                <Graphics draw={drawGalacticGrid} reset />
+                <Graphics draw={drawSectors} />
+            </Layer>
+            <MarkerLayer >
                 <FederationShipMarker position={{ r: 0, theta: 0 }} />
                 {markers}
             </MarkerLayer>
