@@ -2,31 +2,32 @@ import { Vector } from 'coordinates';
 import React, { Fragment, useState } from 'react';
 import { shortRangeScan } from 'trek-engine';
 import { Context, Display, Frame, FrameButton, FrameButtonBar, FrameTitle, KlingonShipMarker, LrsDisplay, SrsDisplay, StarbaseMarker, StarMarker } from '.';
+import { CelPanel } from './display';
 
-const drawMarkers = (objs = []) => {
-    let key = 0;
-    const maxR = Math.max(...objs.map(o => o.position.r));
+// const drawMarkers = (objs = []) => {
+//     let key = 0;
+//     const maxR = Math.max(...objs.map(o => o.position.r));
 
-    const markers = objs.map(o => {
-        const pos = Vector.Polar.scale(o.position, maxR * o.position.r);
-        switch (o.type) {
-            case 'star':
-                return (<StarMarker position={pos} key={key++} />)
-            case 'enemy':
-                return (<KlingonShipMarker position={pos} key={key++} />)
-            case 'base':
-                return (<StarbaseMarker position={pos} key={key++} />)
-            default:
-                throw new Error('unknown galactic object type')
-        }
-    })
+//     const markers = objs.map(o => {
+//         const pos = Vector.Polar.scale(o.position, maxR * o.position.r);
+//         switch (o.type) {
+//             case 'star':
+//                 return (<StarMarker position={pos} key={key++} />)
+//             case 'enemy':
+//                 return (<KlingonShipMarker position={pos} key={key++} />)
+//             case 'base':
+//                 return (<StarbaseMarker position={pos} key={key++} />)
+//             default:
+//                 throw new Error('unknown galactic object type')
+//         }
+// //     })
 
-    return (
-        <Fragment>
-            {markers}
-        </Fragment>
-    )
-}
+//     return (
+//         <Fragment>
+//             {markers}
+//         </Fragment>
+//     )
+// }
 
 export const Sensors = props => {
     const [title, setTitle] = useState('Sensor Scan');
@@ -34,15 +35,14 @@ export const Sensors = props => {
 
     const srs = (context) => {
         const scan = shortRangeScan(context.game, context.sectors, context.ship);
-        const markers = drawMarkers(scan.objs);
+        // const markers = drawMarkers(scan.objs);
         setTitle(scan.sector.name);
-        setLayers(<SrsDisplay markers={markers} />);
+        setLayers(<SrsDisplay />);
     }
 
     const lrs = (context) => {
-        const markers = drawMarkers();
         setTitle('Long Range Scan')
-        setLayers(<LrsDisplay markers={markers} />);
+        setLayers(<LrsDisplay />);
     }
 
     return (
@@ -55,9 +55,9 @@ export const Sensors = props => {
                             <FrameButton onClick={() => srs(context)} className='lcars-hopbush-bg' text='Short Range Scan' />
                             <FrameButton onClick={() => lrs(context)} className='lcars-hopbush-bg' text='Long Range Scan' />
                         </FrameButtonBar>
-                        <Display height={450} width={450}>
+                        <CelPanel height={450} width={450} >
                             {layers}
-                        </Display>
+                        </CelPanel>
                     </Frame>)
             }}
         </Context.Consumer>

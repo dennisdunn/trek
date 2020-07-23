@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { colors, MarkerLayer, FederationShipMarker, Graphics, SpriteLayer, Sprite, Layer } from '.';
+import { colors, MarkerLayer, FederationShipMarker, Graphics, CelPanel, Cel, SpriteLayer, Sprite, Layer, Spritesheet } from '.';
 
 const drawAxis = ctx => {
     const halfW = ctx.canvas.width / 2;
@@ -31,6 +31,7 @@ const drawGalacticGrid = ctx => {
 }
 
 const drawSectorGrid = ctx => {
+    // ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
     ctx.strokeStyle = 'white';
     drawAxis(ctx);
 
@@ -61,12 +62,14 @@ const drawSectors = ctx => {
 export const SrsDisplay = ({ markers }) => {
     return (
         <Fragment>
-            <Layer>
-                <Graphics draw={drawSectorGrid} reset />
-            </Layer>
-            <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
+            <Cel draw={drawSectorGrid} polar />
+            {/* <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
                 <Sprite scale={0.7} />
-            </SpriteLayer>
+            </SpriteLayer> */}
+            <Spritesheet src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
+                <Sprite />
+                {/* <Sprite scale={0.7} position={{ r: 0.5, theta: Math.PI }} /> */}
+            </Spritesheet>
         </Fragment>
     );
 }
@@ -74,14 +77,15 @@ export const SrsDisplay = ({ markers }) => {
 export const LrsDisplay = ({ markers }) => {
     return (
         <Fragment>
-            <Layer>
+            <Cel draw={drawSectors} polar />
+            {/* <Layer>
                 <Graphics draw={drawGalacticGrid} reset />
                 <Graphics draw={drawSectors} />
             </Layer>
             <MarkerLayer >
                 <FederationShipMarker position={{ r: 0, theta: 0 }} />
                 {markers}
-            </MarkerLayer>
+            </MarkerLayer> */}
         </Fragment>
     );
 }
