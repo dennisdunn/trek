@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { colors, MarkerLayer, FederationShipMarker, Graphics, CelPanel, Cel, SpriteLayer, Sprite, Layer, Spritesheet } from '.';
+import { Cel, colors, Sprite, Spritesheet } from '.';
 
 const drawAxis = ctx => {
     const halfW = ctx.canvas.width / 2;
@@ -66,9 +66,11 @@ export const SrsDisplay = ({ markers }) => {
             {/* <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
                 <Sprite scale={0.7} />
             </SpriteLayer> */}
-            <Spritesheet src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
-                <Sprite />
-                {/* <Sprite scale={0.7} position={{ r: 0.5, theta: Math.PI }} /> */}
+            <Spritesheet src='/assets/spritesheet.png' size={50}>
+                <Sprite scale={0.7} />
+                <Sprite index={1} scale={0.5} position={{ r: 1, theta: Math.PI }} />
+                <Sprite index={1} scale={0.5} position={{ r: .7, theta: Math.PI / 2 }} />
+                <Sprite index={1} scale={0.5} position={{ r: .7, theta: Math.PI / 3 }} />
             </Spritesheet>
         </Fragment>
     );

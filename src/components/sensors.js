@@ -1,33 +1,7 @@
-import { Vector } from 'coordinates';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { shortRangeScan } from 'trek-engine';
-import { Context, Display, Frame, FrameButton, FrameButtonBar, FrameTitle, KlingonShipMarker, LrsDisplay, SrsDisplay, StarbaseMarker, StarMarker } from '.';
-import { CelPanel } from './display';
-
-// const drawMarkers = (objs = []) => {
-//     let key = 0;
-//     const maxR = Math.max(...objs.map(o => o.position.r));
-
-//     const markers = objs.map(o => {
-//         const pos = Vector.Polar.scale(o.position, maxR * o.position.r);
-//         switch (o.type) {
-//             case 'star':
-//                 return (<StarMarker position={pos} key={key++} />)
-//             case 'enemy':
-//                 return (<KlingonShipMarker position={pos} key={key++} />)
-//             case 'base':
-//                 return (<StarbaseMarker position={pos} key={key++} />)
-//             default:
-//                 throw new Error('unknown galactic object type')
-//         }
-// //     })
-
-//     return (
-//         <Fragment>
-//             {markers}
-//         </Fragment>
-//     )
-// }
+import { Context, Frame, FrameButton, FrameButtonBar, FrameTitle, LrsDisplay, SrsDisplay } from '.';
+import { CelPanel } from './cel';
 
 export const Sensors = props => {
     const [title, setTitle] = useState('Sensor Scan');
