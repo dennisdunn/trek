@@ -73,7 +73,8 @@ export const LrsDisplay = ({ markers, position }) => {
     return (
         <Fragment>
             <Cel draw={drawSectors} polar />
-            <Cel draw={drawGalacticGrid} polar /> <Spritesheet src='/assets/spritesheet.png' size={50}>
+            <Cel draw={drawGalacticGrid} polar />
+            <Spritesheet src='/assets/spritesheet.png' size={50}>
                 <Sprite scale={0.5} position={position} />
                 {markers}
             </Spritesheet>
