@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommsLog, Frame, FrameButton, FrameButtonBar, FrameTitle, Sensors } from '.';
+import { CommsLog, Frame, FrameButton, FrameButtonBar, FrameTitle, Sensors, WarpControl } from '.';
 
 export const Bridge = props => {
   return (
@@ -15,12 +15,7 @@ export const Bridge = props => {
       <Frame className='shields lcars-atomic-tangerine-border' type='left'>
         <FrameTitle title='Shields' />
       </Frame>
-      <Frame className='warp lcars-atomic-tangerine-border' type='left'>
-        <FrameTitle title='Warp Drive' />
-        <FrameButtonBar>
-          <FrameButton className='lcars-dodger-blue-bg' text='Engage' />
-        </FrameButtonBar>
-      </Frame>
+      <WarpControl />
       <Frame className='phasers lcars-atomic-tangerine-border' type='top'>
         <FrameTitle title='Phasers' />
         <FrameButtonBar>

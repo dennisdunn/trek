@@ -1,0 +1,6 @@
+input[type='number'] {
+  width: 50%;
+  text-align: center;
+  border: none;
+  background-color: #ff9 !important;
+}

@@ -69,19 +69,14 @@ export const SrsDisplay = ({ markers }) => {
     );
 }
 
-export const LrsDisplay = ({ markers }) => {
+export const LrsDisplay = ({ markers, position }) => {
     return (
         <Fragment>
             <Cel draw={drawSectors} polar />
-            <Cel draw={drawGalacticGrid} polar />
-            {/* <Layer>
-                <Graphics draw={drawGalacticGrid} reset />
-                <Graphics draw={drawSectors} />
-            </Layer>
-            <MarkerLayer >
-                <FederationShipMarker position={{ r: 0, theta: 0 }} />
+            <Cel draw={drawGalacticGrid} polar /> <Spritesheet src='/assets/spritesheet.png' size={50}>
+                <Sprite scale={0.5} position={position} />
                 {markers}
-            </MarkerLayer> */}
+            </Spritesheet>
         </Fragment>
     );
 }
