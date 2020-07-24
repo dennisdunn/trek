@@ -19,8 +19,7 @@ const drawAxis = ctx => {
 }
 
 const drawGalacticGrid = ctx => {
-    ctx.strokeStyle = 'white';
-    drawAxis(ctx);
+    ctx.strokeStyle = 'lightgray';
 
     ctx.beginPath();
     for (let i = 1; i <= 4; i++) {
@@ -31,7 +30,6 @@ const drawGalacticGrid = ctx => {
 }
 
 const drawSectorGrid = ctx => {
-    // ctx.translate(ctx.canvas.width / 2, ctx.canvas.height / 2);
     ctx.strokeStyle = 'white';
     drawAxis(ctx);
 
@@ -75,6 +73,7 @@ export const LrsDisplay = ({ markers }) => {
     return (
         <Fragment>
             <Cel draw={drawSectors} polar />
+            <Cel draw={drawGalacticGrid} polar />
             {/* <Layer>
                 <Graphics draw={drawGalacticGrid} reset />
                 <Graphics draw={drawSectors} />

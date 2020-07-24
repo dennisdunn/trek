@@ -4,16 +4,23 @@ import { Context, Frame, FrameButton, FrameButtonBar, FrameTitle, LrsDisplay, Sr
 import { CelPanel } from './cel';
 import { Sprite } from './sprite';
 
+const mkTitle = obj => {
+    return { title: `Range: ${obj.position.r.toFixed(2)}\nBearing: ${obj.position.theta.toFixed(3)}` }
+}
+
 const mkMarkers = objs => {
     let key = 0
     const sprite = {
         federation: { index: 0, scale: 0.7 },
         enemy: { index: 1, scale: 0.5 },
         base: { index: 2, scale: 0.5 },
-        star: { index: 3, scale: Math.random() * 0.6 + 0.3 },
+        star: { index: 3, scale: 0.4 }
     }
     const scale = 1 / Math.max(...objs.map(o => o.position.r))
-    return objs.map(o => <Sprite {...sprite[o.type]} position={{ ...o.position, r: scale * o.position.r }} key={key++} />)
+    return objs.map(o => <Sprite {...sprite[o.type]}
+        position={{ ...o.position, r: scale * o.position.r }}
+        {...mkTitle(o)}
+        key={key++} />)
 }
 
 export const Sensors = props => {
