@@ -63,16 +63,9 @@ export const SrsDisplay = ({ markers }) => {
     return (
         <Fragment>
             <Cel draw={drawSectorGrid} polar />
-            {/* <SpriteLayer src='/images/icons8-star-trek-united-federation-ship-50.png' size={50}>
-                <Sprite scale={0.7} />
-            </SpriteLayer> */}
             <Spritesheet src='/assets/spritesheet.png' size={50}>
                 <Sprite scale={0.7} />
-                <Sprite index={1} scale={0.5} position={{ r: 1, theta: Math.PI }} />
-                <Sprite index={2} scale={0.7} position={{ r: .7, theta: Math.PI / 2.5 }} />
-                <Sprite index={1} scale={0.5} position={{ r: .9, theta: Math.PI * 3 / 4 }} />
-                <Sprite index={3} scale={0.6} position={{ r: Math.random(), theta: 2 * Math.PI * Math.random() }} />
-                <Sprite index={3} scale={0.4} position={{ r: Math.random(), theta: 2 * Math.PI * Math.random() }} />
+                {markers}
             </Spritesheet>
         </Fragment>
     );

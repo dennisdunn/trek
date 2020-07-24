@@ -67,9 +67,6 @@ export const Sprite = ({ index = 0, scale = 1.0, position = { r: 0, theta: 0 }, 
     useEffect(() => {
         // draw the sprite
         const { x, y } = getSpriteIndex(index, spritesheet.size, spritesheet.sprites.width, spritesheet.sprites.height)
-
-        console.log({ x, y })
-
         const ctx = ref.current.getContext('2d')
         ctx.drawImage(spritesheet.sprites, x, y, spritesheet.size, spritesheet.size, 0, 0, size, size)
         // set the position in the container
