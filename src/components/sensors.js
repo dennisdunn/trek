@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { longRangeScan, shortRangeScan } from 'trek-engine';
-import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, GameContext, ScannerContext, Sprite, Spritesheet } from '.';
+import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, GameContext, ScannerContext, ShipContext, Sprite, Spritesheet } from '.';
 
 const draw = {
     Axis: ctx => {
@@ -90,13 +90,13 @@ const mk = {
 }
 
 const scan = {
-    srs: (gameCtx, scannerCtx) => {
-        const results = shortRangeScan(gameCtx.game, gameCtx.sectors, gameCtx.ship)
+    srs: (gameCtx, scannerCtx, shipCtx) => {
+        const results = shortRangeScan(gameCtx.game, scannerCtx.sectors, shipCtx.ship)
         scannerCtx.setSectorName(results.sector.name)
         scannerCtx.setSrsScan(results.objs)
     },
-    lrs: (gameCtx, scannerCtx) => {
-        const results = longRangeScan(gameCtx.game, gameCtx.ship, 0.2)
+    lrs: (gameCtx, scannerCtx, shipCtx) => {
+        const results = longRangeScan(gameCtx.game, shipCtx.ship, 0.2)
         scannerCtx.setLrsScan(prev => {
             const items = new Set(prev)
             results.forEach(o => items.add(o))
@@ -109,10 +109,11 @@ export const Scanners = props => {
     const [current, setCurrent] = useState('srs');
     const gameCtx = React.useContext(GameContext)
     const scannerCtx = React.useContext(ScannerContext)
+    const shipCtx = React.useContext(ShipContext)
 
     const onSelected = (scanner) => {
         setCurrent(scanner)
-        scan[scanner](gameCtx, scannerCtx)
+        scan[scanner](gameCtx, scannerCtx, shipCtx)
     }
 
     return (
@@ -124,7 +125,7 @@ export const Scanners = props => {
             <CelPanel height={450} width={450} >
                 {current === 'srs'
                     ? <ShortRangeScanner items={scannerCtx.srsScan} name={scannerCtx.sectorName} />
-                    : <LongRangeScanner items={scannerCtx.lrsScan} position={gameCtx.ship.position} />}
+                    : <LongRangeScanner items={scannerCtx.lrsScan} position={shipCtx.ship.position} />}
             </CelPanel>
         </Fragment>
     )
@@ -144,7 +145,7 @@ export const ShortRangeScanner = ({ items, name }) => {
                 <Sprite index={0} scale={0.7} />
                 {markers}
             </Spritesheet>
-            <p style={{ position: 'absolute' }}>{name}</p>
+            <p style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{name}</p>
         </Fragment>
     );
 }

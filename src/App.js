@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { initGameState, initSectors, initShip } from 'trek-engine'
-import { Bridge, GameContext, ScannerContext } from './components'
+import { Bridge, GameContext, ScannerContext, ShipContext } from './components'
 
 function App() {
   const [game, setGame] = useState(initGameState())
@@ -20,16 +20,19 @@ function App() {
   return (
     <div className='App'>
       <GameContext.Provider value={{
-        game, setGame,
-        ship, setShip,
-        sectors
+        game, setGame
       }}>
         <ScannerContext.Provider value={{
           srsScan, setSrsScan,
           lrsScan, setLrsScan,
-          sectorName, setSectorName
+          sectorName, setSectorName,
+          sectors
         }}>
-          <Bridge />
+          <ShipContext.Provider value={{
+            ship, setShip
+          }}>
+            <Bridge />
+          </ShipContext.Provider>
         </ScannerContext.Provider>
       </GameContext.Provider>
     </div>
