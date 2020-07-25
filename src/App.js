@@ -1,23 +1,37 @@
 import React, { useState } from 'react'
 import { initGameState, initSectors, initShip } from 'trek-engine'
-import { Bridge, Context } from './components'
+import { Bridge, GameContext, ScannerContext } from './components'
 
 function App() {
   const [game, setGame] = useState(initGameState())
   const [ship, setShip] = useState(initShip())
+  const [srsScan, setSrsScan] = useState([])
+  const [lrsScan, setLrsScan] = useState(new Set())
+  const [sectorName, setSectorName] = useState('Unknown Sector')
   const sectors = initSectors()
 
-  // player.log.push("SCOTTY: I'donna tink she'll make it!");
-  // player.log.push("MCCOY: Spock, you green-blooded, pointy-eared...");
-  // player.log.push("MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!");
-  // player.log.push("SPOCK: Doctor McCoy, I raise my eybrows at you.");
-  // player.log.push("SCOTTY: Is'a no one listening? The warp core is overloading! Shes'a gonna' blow!");
+  // comms.add("SPOCK: Captain on deck.");
+  // comms.add("SCOTTY: I'donna tink she'll make it!");
+  // comms.add("MCCOY: Spock, you green-blooded, pointy-eared...");
+  // comms.add("SPOCK: Doctor McCoy, I raise my eybrows at you.");
+  // comms.add("SCOTTY: Is'a no one listening? The warp core is overloading! Shes'a not feeling well!");
+  // comms.add("MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!");
 
   return (
     <div className='App'>
-      <Context.Provider value={{ game, setGame, ship, setShip, sectors }}>
-        <Bridge />
-      </Context.Provider>
+      <GameContext.Provider value={{
+        game, setGame,
+        ship, setShip,
+        sectors
+      }}>
+        <ScannerContext.Provider value={{
+          srsScan, setSrsScan,
+          lrsScan, setLrsScan,
+          sectorName, setSectorName
+        }}>
+          <Bridge />
+        </ScannerContext.Provider>
+      </GameContext.Provider>
     </div>
   )
 }

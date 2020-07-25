@@ -1,3 +1,4 @@
 import React from 'react';
 
-export const Context = React.createContext();
+export const GameContext = React.createContext();
+export const ScannerContext = React.createContext();

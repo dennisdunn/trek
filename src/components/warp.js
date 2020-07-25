@@ -1,34 +1,32 @@
-import React, { useState } from 'react'
-import { Context, Frame, FrameButton, FrameButtonBar, FrameTitle, ControlBox, NumberControl } from '.'
 import { Vector } from 'coordinates'
+import React, { useState, Fragment } from 'react'
+import { GameContext, ControlBox, Frame, FrameButton, FrameButtonBar, FrameTitle, NumberControl } from '.'
 
-const move = (context, warp, heading, onMove) => {
+const move = (context, warp, heading) => {
     const delta = { r: warp, theta: heading }
     const position = Vector.Polar.sum(context.ship.position, delta)
     context.setShip({ ...context.ship, position })
-    if (onMove) onMove()
 }
 
-export const WarpControl = ({ onMove }) => {
+export const WarpControl = props => {
     const [heading, setHeading] = useState(0)
     const [warp, setWarp] = useState(0)
 
     return (
-        <Context.Consumer>
-            {context => {
+        <GameContext.Consumer>
+            {gameCtx => {
                 return (
-                    <Frame className='warp lcars-atomic-tangerine-border' type='left'>
-                        <FrameTitle title='Warp Drive' />
+                    <Fragment>
                         <FrameButtonBar>
-                            <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={() => move(context, warp, heading, onMove)} />
+                            <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={() => move(gameCtx, warp, heading)} />
                         </FrameButtonBar>
                         <ControlBox>
                             <NumberControl title='Warp Factor' onChange={setWarp} min={0} step={0.2} defaultValue={warp} />
                             <NumberControl title='Heading' onChange={setHeading} min={0} step={0.2} defaultValue={heading} />
                         </ControlBox>
-                    </Frame>
+                    </Fragment>
                 )
             }}
-        </Context.Consumer>
+        </GameContext.Consumer>
     )
 }
