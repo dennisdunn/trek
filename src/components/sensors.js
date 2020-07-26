@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { longRangeScan, shortRangeScan } from 'trek-engine';
 import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, GameContext, ScannerContext, ShipContext, Sprite, Spritesheet } from '.';
+import { Vector, Convert } from 'coordinates'
 
 const draw = {
     Axis: ctx => {
@@ -57,8 +58,11 @@ const draw = {
 }
 
 const mk = {
-    Title: obj => {
-        return { title: `Range: ${obj.position.r.toFixed(2)}\nBearing: ${obj.position.theta.toFixed(3)}` }
+    relativeTitle: position => {
+        return { title: `Range: ${position.r.toFixed(3)}\nBearing: ${position.theta.toFixed(3)}` }
+    },
+    absoluteTitle: position => {
+        return { title: `ρ: ${position.r.toFixed(3)}\nθ: ${position.theta.toFixed(3)}` }
     },
     LrsMarkers: (objs = []) => {
         const sprite = {
@@ -70,6 +74,7 @@ const mk = {
         let key = 0
         return objs.map(o => <Sprite {...sprite[o.type]}
             position={o.position}
+            {...mk.absoluteTitle(o.position)}
             key={key++} />)
     },
     SrsMarkers: (objs = []) => {
@@ -84,7 +89,7 @@ const mk = {
         const scale = 1 / Math.max(...objs.map(o => o.position.r))
         return objs.map(o => <Sprite {...sprite[o.type]}
             position={{ ...o.position, r: scale * o.position.r }}
-            {...mk.Title(o)}
+            {...mk.relativeTitle(o.position)}
             key={key++} />)
     }
 }
@@ -102,6 +107,19 @@ const scan = {
             results.forEach(o => items.add(o))
             return items;
         })
+    }
+}
+
+const evt = {
+    lrsClick: (e, shipCtx) => {
+        const bounds = e.currentTarget.getBoundingClientRect()
+        let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
+        point = Convert.canvas2polar(point, bounds)
+        console.log(point)
+        // get relative position
+        point = Vector.Polar.diff(shipCtx.ship.position, point)
+        console.log(point)
+        shipCtx.setShip(prev => { return { ...prev, heading: point } })
     }
 }
 
@@ -152,6 +170,7 @@ export const ShortRangeScanner = ({ items, name }) => {
 
 export const LongRangeScanner = ({ items, position }) => {
     const [markers, setMarkers] = useState([])
+    const shipCtx = React.useContext(ShipContext)
 
     useEffect(() => {
         setMarkers(mk.LrsMarkers(Array.from(items.values())))
@@ -160,9 +179,9 @@ export const LongRangeScanner = ({ items, position }) => {
     return (
         <Fragment>
             <Cel draw={draw.Sectors} polar />
-            <Cel draw={draw.GalacticGrid} polar />
+            <Cel draw={draw.GalacticGrid} polar onClick={e => evt.lrsClick(e, shipCtx)} />
             <Spritesheet src='/assets/spritesheet.png' size={50}>
-                <Sprite index={0} scale={0.5} position={position} />
+                <Sprite index={0} scale={0.5} position={position} {...mk.absoluteTitle(position)} />
                 {markers}
             </Spritesheet>
         </Fragment>

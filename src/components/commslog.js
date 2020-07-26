@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Pubsub } from './pubsub';
+import React from 'react';
+import { ShipContext } from '.';
 
 export const CommsLog = props => {
-    const [msgs, setMsgs] = useState([])
-
-    const handler = data => {
-        setMsgs([...msgs, data])
-    }
-
-    useEffect(() => {
-        return Pubsub.subscribe('comms', handler)
-    }, [])
+    const shipCtx = React.useContext(ShipContext)
 
     return (
         <ul>
-            {msgs.map(m => (<li>{m}</li>))}
+            {shipCtx.ship.comms.map(m => (<li>{m}</li>))}
         </ul>
     );
 }

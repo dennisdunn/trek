@@ -14,7 +14,7 @@ export const CelPanel = ({ height, width, init = () => { }, children }) => {
     );
 }
 
-export const Cel = ({ draw, polar = false }) => {
+export const Cel = ({ draw, polar = false, onClick = () => { } }) => {
     const ref = React.createRef();
 
     useEffect(() => {
@@ -30,7 +30,8 @@ export const Cel = ({ draw, polar = false }) => {
                     <canvas style={{ position: 'absolute', top: 0, left: 0 }}
                         height={height}
                         width={width}
-                        ref={ref}>
+                        ref={ref}
+                        onClick={onClick}>
                     </canvas>
                 );
             }}

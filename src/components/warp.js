@@ -1,32 +1,26 @@
 import { Vector } from 'coordinates'
-import React, { useState, Fragment } from 'react'
-import { GameContext, ControlBox, Frame, FrameButton, FrameButtonBar, FrameTitle, NumberControl } from '.'
+import React, { Fragment, useState } from 'react'
+import { ControlBox, FrameButton, FrameButtonBar, GameContext, NumberControl, ShipContext } from '.'
+import { DisplayControl } from './controls'
 
-const move = (context, warp, heading) => {
-    const delta = { r: warp, theta: heading }
-    const position = Vector.Polar.sum(context.ship.position, delta)
-    context.setShip({ ...context.ship, position })
+const move = (shipCtx) => {
+    const position = Vector.Polar.sum(shipCtx.ship.position, shipCtx.ship.heading)
+    shipCtx.setShip(prev => ({ ...prev, position }))
 }
 
 export const WarpControl = props => {
-    const [heading, setHeading] = useState(0)
-    const [warp, setWarp] = useState(0)
+    const shipCtx = React.useContext(ShipContext)
 
     return (
-        <GameContext.Consumer>
-            {gameCtx => {
-                return (
-                    <Fragment>
-                        <FrameButtonBar>
-                            <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={() => move(gameCtx, warp, heading)} />
-                        </FrameButtonBar>
-                        <ControlBox>
-                            <NumberControl title='Warp Factor' onChange={setWarp} min={0} step={0.2} defaultValue={warp} />
-                            <NumberControl title='Heading' onChange={setHeading} min={0} step={0.2} defaultValue={heading} />
-                        </ControlBox>
-                    </Fragment>
-                )
-            }}
-        </GameContext.Consumer>
+        <Fragment>
+            <FrameButtonBar>
+                <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={() => move(shipCtx)} />
+            </FrameButtonBar>
+            <ControlBox>
+                <DisplayControl title='Energy' value={shipCtx.ship.energy} />
+                <DisplayControl title='Warp Factor' value={shipCtx.ship.heading.r} />
+                <DisplayControl title='Heading' value={shipCtx.ship.heading.theta} />
+            </ControlBox>
+        </Fragment>
     )
 }

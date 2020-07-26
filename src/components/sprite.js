@@ -1,4 +1,4 @@
-import { toRect, Vector } from 'coordinates';
+import { Convert, Vector } from 'coordinates';
 import React, { createContext, useEffect, useState } from 'react';
 import { CelContext } from './cel';
 
@@ -25,16 +25,9 @@ const getSpriteIndex = (index, size, height, width) => {
     };
 }
 
-const getSpriteTopLeft = (position, dimensions, size) => {
-    let pos = toRect(position)
-    // translate the position into quadrant IV
-    // // scale
-    const xScale = dimensions.width / 2
-    const yScale = -dimensions.height / 2
-    pos = { x: pos.x * xScale, y: pos.y * yScale }
-    // project into the canvas coordinate space
-    const projection = { x: dimensions.width / 2, y: dimensions.height / 2 }
-    pos = Vector.Rect.sum(pos, projection)
+const getSpriteTopLeft = (position, bounds, size) => {
+    let pos = Convert.polar2canvas(position, bounds)
+
     // adjust to the center of the sprite
     pos = Vector.Rect.diff(pos, { x: size / 2, y: size / 2 })
 
