@@ -11,10 +11,10 @@ function App() {
   const sectors = initSectors()
 
   // comms.add("SPOCK: Captain on deck.");
-  // comms.add("SCOTTY: I'donna tink she'll make it!");
+  // comms.add("SCOT: The warp core has breached!");
   // comms.add("MCCOY: Spock, you green-blooded, pointy-eared...");
   // comms.add("SPOCK: Doctor McCoy, I raise my eybrows at you.");
-  // comms.add("SCOTTY: Is'a no one listening? The warp core is overloading! Shes'a not feeling well!");
+  // comms.add("SCOT: Is'a no one listening? The warp core is'a not doing well!");
   // comms.add("MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!");
 
   return (

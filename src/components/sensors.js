@@ -115,10 +115,7 @@ const evt = {
         const bounds = e.currentTarget.getBoundingClientRect()
         let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
         point = Convert.canvas2polar(point, bounds)
-        console.log(point)
-        // get relative position
-        point = Vector.Polar.diff(shipCtx.ship.position, point)
-        console.log(point)
+        point = Vector.Polar.diff(point, shipCtx.ship.position,)
         shipCtx.setShip(prev => { return { ...prev, heading: point } })
     }
 }
