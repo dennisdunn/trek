@@ -10,10 +10,19 @@ const styles = {
     frame: {
         border: '1rem solid gray',
         borderRadius: '2rem',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center'
+        position: 'relative'
+    },
+    justify: {
+        center: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center'
+        },
+        left: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start'
+        }
     },
     top: {
         borderBottom: 'none',
@@ -53,21 +62,15 @@ const styles = {
         cursor: 'pointer',
         zIndex: 2000
     }
-
-    //   button: hover {
-    //     background-color: lightgray;
-    //   }
-
-
 }
 
 const getStyles = type => {
     return type ? { ...styles.frame, ...styles[type] } : { ...styles.frame, ...styles.left };
 }
 
-export const Frame = ({ type, children, ...rest }) => {
+export const Frame = ({ type, children, justify = 'center', ...rest }) => {
     return (
-        <div style={getStyles(type)} {...rest}>
+        <div style={{ ...getStyles(type), ...styles.justify[justify] }} {...rest}>
             {children}
         </div>
     );

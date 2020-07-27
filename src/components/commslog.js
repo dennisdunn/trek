@@ -5,8 +5,8 @@ export const CommsLog = props => {
     const shipCtx = React.useContext(ShipContext)
 
     return (
-        <ul>
-            {shipCtx.ship.comms.map(m => (<li>{m}</li>))}
-        </ul>
+        <div style={{ fontSize: '1.4rem', marginLeft: '1rem', display: 'flex', flexDirection: 'column-reverse', marginTop: '1rem' }}>
+            {shipCtx.ship.comms.reverse().map(m => (<div>{m}</div>))}
+        </div>
     );
 }

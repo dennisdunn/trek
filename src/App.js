@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { initGameState, initSectors, initShip } from 'trek-engine'
-import { Bridge, GameContext, ScannerContext, ShipContext } from './components'
+import { Bridge, GameContext, Introduction, ScannerContext, ShipContext } from './components'
 
 function App() {
   const [game, setGame] = useState(initGameState())
@@ -9,13 +9,6 @@ function App() {
   const [lrsScan, setLrsScan] = useState(new Set())
   const [sectorName, setSectorName] = useState('Unknown Sector')
   const sectors = initSectors()
-
-  // comms.add("SPOCK: Captain on deck.");
-  // comms.add("SCOT: The warp core has breached!");
-  // comms.add("MCCOY: Spock, you green-blooded, pointy-eared...");
-  // comms.add("SPOCK: Doctor McCoy, I raise my eybrows at you.");
-  // comms.add("SCOT: Is'a no one listening? The warp core is'a not doing well!");
-  // comms.add("MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!");
 
   return (
     <div className='App'>

@@ -1,11 +1,14 @@
 import React from 'react';
 import { CommsLog, Frame, FrameButton, FrameButtonBar, FrameTitle, Scanners, WarpControl } from '.';
+import { TorpedoControl } from './torpedos';
+import { PhaserControl } from './phasers';
+import { ShieldControl } from './shields';
 
 export const Bridge = props => {
 
   return (
     <div className='bridge'>
-      <Frame className='comms lcars-atomic-tangerine-border' type='bottom'>
+      <Frame className='comms lcars-atomic-tangerine-border' type='bottom' justify='left'>
         <FrameTitle title='Communications Log' />
         <CommsLog />
       </Frame>
@@ -21,6 +24,7 @@ export const Bridge = props => {
 
       <Frame className='shields lcars-atomic-tangerine-border' type='left'>
         <FrameTitle title='Shields' />
+        <ShieldControl />
       </Frame>
 
       <Frame className='warp lcars-atomic-tangerine-border' type='left'>
@@ -30,16 +34,12 @@ export const Bridge = props => {
 
       <Frame className='phasers lcars-atomic-tangerine-border' type='top'>
         <FrameTitle title='Phasers' />
-        <FrameButtonBar>
-          <FrameButton className='lcars-tamarillo-bg' text='Fire' />
-        </FrameButtonBar>
+        <PhaserControl />
       </Frame>
 
       <Frame className='torpedos lcars-atomic-tangerine-border' type='top'>
         <FrameTitle title='Photon Torpedo' />
-        <FrameButtonBar>
-          <FrameButton className='lcars-tamarillo-bg' text='Launch' />
-        </FrameButtonBar>
+        <TorpedoControl />
       </Frame>
     </div>
   )
