@@ -1,6 +1,5 @@
-import { Vector } from 'coordinates'
-import React, { Fragment, useState } from 'react'
-import { ControlBox, FrameButton, FrameButtonBar, GameContext, NumberControl, ShipContext } from '.'
+import React, { Fragment } from 'react'
+import { ControlBox, FrameButton, FrameButtonBar, ShipContext } from '.'
 import { DisplayControl } from './controls'
 
 export const TorpedoControl = props => {
@@ -12,8 +11,8 @@ export const TorpedoControl = props => {
                 <FrameButton className='lcars-tamarillo-bg' text='Launch' /> </FrameButtonBar>
             <ControlBox>
                 <DisplayControl title='Torpedos' value={shipCtx.ship.torpedos} />
-                <DisplayControl title='Range' value={shipCtx.ship.target.r} />
-                <DisplayControl title='Bearing' value={shipCtx.ship.target.theta} />
+                <DisplayControl title='Range' value={shipCtx.ship.target.r} precision={3} />
+                <DisplayControl title='Bearing' value={shipCtx.ship.target.theta} precision={3} />
             </ControlBox>
         </Fragment>
     )

@@ -1,6 +1,6 @@
 import { Vector } from 'coordinates'
-import React, { Fragment, useState } from 'react'
-import { ControlBox, FrameButton, FrameButtonBar, GameContext, NumberControl, ShipContext } from '.'
+import React, { Fragment } from 'react'
+import { ControlBox, FrameButton, FrameButtonBar, ShipContext } from '.'
 import { DisplayControl } from './controls'
 
 const move = (shipCtx) => {
@@ -18,8 +18,8 @@ export const WarpControl = props => {
             </FrameButtonBar>
             <ControlBox>
                 <DisplayControl title='Energy' value={shipCtx.ship.energy} />
-                <DisplayControl title='Warp Factor' value={shipCtx.ship.heading.r} />
-                <DisplayControl title='Heading' value={shipCtx.ship.heading.theta} />
+                <DisplayControl title='Warp Factor' value={shipCtx.ship.heading.r} precision={3} />
+                <DisplayControl title='Heading' value={shipCtx.ship.heading.theta} precision={3} />
             </ControlBox>
         </Fragment>
     )

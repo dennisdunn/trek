@@ -1,8 +1,8 @@
 import React from 'react';
-import { CommsLog, Frame, FrameButton, FrameButtonBar, FrameTitle, Scanners, WarpControl } from '.';
-import { TorpedoControl } from './torpedos';
+import { CommsLog, Frame, FrameTitle, Scanners, WarpControl } from '.';
 import { PhaserControl } from './phasers';
 import { ShieldControl } from './shields';
+import { TorpedoControl } from './torpedos';
 
 export const Bridge = props => {
 
