@@ -1,25 +1,16 @@
-import React, { useState } from 'react'
-import { initGameState, initSectors, initShip } from 'trek-engine'
-import { CommsLog, Frame, FrameTitle, Scanners, WarpControl, ScannerContext } from '.';
+import React from 'react';
+import { Comms, Frame, FrameTitle, Sensors, WarpControl } from '.';
 import { PhaserControl } from './phasers';
 import { ShieldControl } from './shields';
 import { TorpedoControl } from './torpedos';
-import { CommsContext, ShipContext } from './context';
 
 export const Bridge = props => {
-  const [srsScan, setSrsScan] = useState([])
-  const [lrsScan, setLrsScan] = useState(new Set())
-  const [sectorName, setSectorName] = useState('Unknown Sector')
-  const sectors = initSectors()
-  const shipctx = React.useContext(ShipContext)
 
   return (
     <div className='bridge'>
       <Frame className='comms lcars-atomic-tangerine-border' type='bottom' justify='left'>
         <FrameTitle title='Communications Log' />
-        <CommsContext.Provider value={shipctx.ship.comms}>
-          <CommsLog />
-        </CommsContext.Provider>
+        <Comms />
       </Frame>
 
       <Frame className='status lcars-atomic-tangerine-border' type='bottom'>
@@ -28,14 +19,7 @@ export const Bridge = props => {
 
       <Frame className='sensors lcars-atomic-tangerine-border' type='bracket'>
         <FrameTitle title='Sciences' />
-        <ScannerContext.Provider value={{
-          srsScan, setSrsScan,
-          lrsScan, setLrsScan,
-          sectorName, setSectorName,
-          sectors
-        }}>
-          <Scanners />
-        </ScannerContext.Provider>
+        <Sensors />
       </Frame>
 
       <Frame className='shields lcars-atomic-tangerine-border' type='left'>

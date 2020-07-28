@@ -1,7 +1,8 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { longRangeScan, shortRangeScan } from 'trek-engine';
-import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, GameContext, ScannerContext, ShipContext, Sprite, Spritesheet } from '.';
-import { Vector, Convert } from 'coordinates'
+import { Convert, Vector } from 'coordinates'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
+import { longRangeScan, shortRangeScan } from 'trek-engine'
+import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, Sprite, Spritesheet } from '.'
+import { GameContext, SensorContext, ShipContext } from './context'
 
 const draw = {
     Axis: ctx => {
@@ -95,18 +96,13 @@ const mk = {
 }
 
 const scan = {
-    srs: (gameCtx, scannerCtx, shipCtx) => {
-        const results = shortRangeScan(gameCtx.game, scannerCtx.sectors, shipCtx.ship)
-        scannerCtx.setSectorName(results.sector.name)
-        scannerCtx.setSrsScan(results.objs)
+    srs: ([sensors, setSensors], game, ship) => {
+        const [sector, srs] = shortRangeScan(game, sensors.sectors, ship)
+        setSensors(prev => ({ ...prev, sector, srs }))
     },
-    lrs: (gameCtx, scannerCtx, shipCtx) => {
-        const results = longRangeScan(gameCtx.game, shipCtx.ship, 0.2)
-        scannerCtx.setLrsScan(prev => {
-            const items = new Set(prev)
-            results.forEach(o => items.add(o))
-            return items;
-        })
+    lrs: ([_, setSensors], game, ship) => {
+        const lrs = longRangeScan(game, ship, 0.2)
+        setSensors(prev => ({ ...prev, lrs }))
     }
 }
 
@@ -120,33 +116,30 @@ const evt = {
     }
 }
 
-export const Scanners = props => {
-    const [current, setCurrent] = useState('srs');
-    const gameCtx = React.useContext(GameContext)
-    const scannerCtx = React.useContext(ScannerContext)
-    const shipCtx = React.useContext(ShipContext)
+export const Sensors = props => {
 
-    const onSelected = (scanner) => {
-        setCurrent(scanner)
-        scan[scanner](gameCtx, scannerCtx, shipCtx)
-    }
+    const ctx = useContext(SensorContext)
+    const game = useContext(GameContext)[0]
+    const ship = useContext(ShipContext)[0]
 
     return (
         <Fragment>
             <FrameButtonBar>
-                <FrameButton onClick={() => onSelected('srs')} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => onSelected('lrs')} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => scan.srs(ctx, game, ship)} className='lcars-hopbush-bg' text='Short Range Scan' />
+                <FrameButton onClick={() => scan.lrs(ctx, game, ship)} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <CelPanel height={450} width={450} >
-                {current === 'srs'
-                    ? <ShortRangeScanner items={scannerCtx.srsScan} name={scannerCtx.sectorName} />
-                    : <LongRangeScanner items={scannerCtx.lrsScan} position={shipCtx.ship.position} />}
+                {ctx[0].selected === 'srs'
+                    ? <ShortRangeScanner items={ctx[0].srs} />
+                    : <LongRangeScanner items={ctx[0].lrs} />}
             </CelPanel>
+            <div style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{ctx[0].sector.name}</div>
+
         </Fragment>
     )
 }
 
-export const ShortRangeScanner = ({ items, name }) => {
+export const ShortRangeScanner = ({ items, onClick = () => { } }) => {
     const [markers, setMarkers] = useState([])
 
     useEffect(() => {
@@ -155,30 +148,27 @@ export const ShortRangeScanner = ({ items, name }) => {
 
     return (
         <Fragment>
-            <Cel draw={draw.SectorGrid} polar />
+            <Cel draw={draw.SectorGrid} polar onClick={onClick} />
             <Spritesheet src='/assets/spritesheet.png' size={50}>
                 <Sprite index={0} scale={0.7} />
                 {markers}
             </Spritesheet>
-            <p style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{name}</p>
         </Fragment>
     );
 }
 
-export const LongRangeScanner = ({ items, position }) => {
+export const LongRangeScanner = ({ items, onClick = () => { } }) => {
     const [markers, setMarkers] = useState([])
-    const shipCtx = React.useContext(ShipContext)
 
     useEffect(() => {
-        setMarkers(mk.LrsMarkers(Array.from(items.values())))
+        setMarkers(mk.LrsMarkers(items))
     }, [items])
 
     return (
         <Fragment>
             <Cel draw={draw.Sectors} polar />
-            <Cel draw={draw.GalacticGrid} polar onClick={e => evt.lrsClick(e, shipCtx)} />
+            <Cel draw={draw.GalacticGrid} polar onClick={onClick} />
             <Spritesheet src='/assets/spritesheet.png' size={50}>
-                <Sprite index={0} scale={0.5} position={position} {...mk.absoluteTitle(position)} />
                 {markers}
             </Spritesheet>
         </Fragment>

@@ -1,23 +1,15 @@
-import React, { useState } from 'react'
-import { initGameState, initSectors, initShip } from 'trek-engine'
-import { Bridge, GameContext, Introduction, ScannerContext, ShipContext } from './components'
+import React from 'react'
+import { Bridge, Introduction } from './components'
+import { Context } from './components/context'
 
 function App() {
-  const [game, setGame] = useState(initGameState())
-  const [ship, setShip] = useState(initShip())
 
   return (
     <div className='App'>
-      <GameContext.Provider value={{
-        game, setGame
-      }}>
-        <ShipContext.Provider value={{
-          ship, setShip
-        }}>
-          <Bridge />
-          <Introduction />
-        </ShipContext.Provider>
-      </GameContext.Provider>
+      <Context>
+        <Bridge />
+        <Introduction />
+      </Context>
     </div >
   )
 }

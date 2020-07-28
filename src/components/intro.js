@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { ShipContext } from '.'
+import { useContext, useEffect } from 'react';
+import { CommsContext } from './context';
 
 const defaultDialog = [
     "SPOCK: Captain on deck.",
@@ -10,19 +10,12 @@ const defaultDialog = [
     "MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!"
 ]
 
-export const Introduction = ({ dialog = defaultDialog }) => {
-    const shipCtx = React.useContext(ShipContext)
-
-    const logMessage = msg => {
-        const comms = shipCtx.ship.comms
-        comms.push(msg)
-        shipCtx.setShip(prev => ({ ...prev, comms }))
-    }
+export const Introduction = ({ log = defaultDialog }) => {
+    const [_, setComms] = useContext(CommsContext)
 
     useEffect(() => {
-        dialog.forEach((item, idx) => {
-            setTimeout(() => logMessage(item), idx * 2000)
-        })
+        // const updates = dialog.map((msg) => () => actions.setter(prev => ({ log: [...prev.log, msg] })))
+        setComms({ log })
     }, [])
 
     return null;
