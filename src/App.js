@@ -1,15 +1,14 @@
 import React from 'react'
-import { Bridge, Introduction } from './components'
-import { Context } from './components/context'
+import { Bridge, Introduction, StoreProvider } from './components'
 
 function App() {
 
   return (
     <div className='App'>
-      <Context>
+      <StoreProvider>
         <Bridge />
         <Introduction />
-      </Context>
+      </StoreProvider>
     </div >
   )
 }

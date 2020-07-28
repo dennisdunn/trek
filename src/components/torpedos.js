@@ -1,10 +1,10 @@
-import React, { Fragment, useContext } from 'react'
-import { ControlBox, FrameButton, FrameButtonBar } from '.'
-import { TorpedosContext } from './context'
-import { DisplayControl } from './controls'
+import React, { Fragment } from 'react'
+import { ControlBox, DisplayControl } from './controls'
+import { FrameButton, FrameButtonBar } from './frame'
+import { useTorpedo } from './store'
 
 export const TorpedoControl = props => {
-    const [torpedos, _] = useContext(TorpedosContext)
+    const { state: torpedos } = useTorpedo()
 
     return (
         <Fragment>

@@ -1,18 +1,18 @@
-import React, { Fragment, useContext } from 'react'
-import { PhasersContext } from './context'
+import React, { Fragment } from 'react'
 import { ControlBox, DisplayControl, RangeControl } from './controls'
 import { FrameButton, FrameButtonBar } from './frame'
+import { usePhaser } from './store'
 
 export const PhaserControl = props => {
-    const [phasers, setPhasers] = useContext(PhasersContext)
-    console.log('phaser')
+    const { state: phasers, dispatch } = usePhaser()
+
     return (
         <Fragment>
             <FrameButtonBar>
                 <FrameButton className='lcars-tamarillo-bg' text='Fire' />
             </FrameButtonBar>
             <ControlBox>
-                <RangeControl min={0} max={500} value={phasers.energy} onInput={e => setPhasers(prev => ({ ...prev, energy: Number.parseFloat(e.target.value) }))} />
+                <RangeControl min={0} max={500} value={phasers.energy} onInput={e => dispatch({ type: 'store-energy', payload: Number.parseFloat(e.target.value) })} />
                 <DisplayControl title='Phaser Engergy' value={phasers.energy} />
             </ControlBox>
         </Fragment>

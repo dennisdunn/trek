@@ -1,8 +1,7 @@
-import { Convert, Vector } from 'coordinates'
-import React, { Fragment, useContext, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { longRangeScan, shortRangeScan } from 'trek-engine'
 import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, Sprite, Spritesheet } from '.'
-import { GameContext, SensorContext, ShipContext } from './context'
+import { useGame, useSensor, useShip } from './store'
 
 const draw = {
     Axis: ctx => {
@@ -67,10 +66,10 @@ const mk = {
     },
     LrsMarkers: (objs = []) => {
         const sprite = {
-            federation: { index: 0, scale: 0.5 },
-            enemy: { index: 1, scale: 0.4 },
-            base: { index: 2, scale: 0.4 },
-            star: { index: 3, scale: 0.2 }
+            friendly: { index: 0, scale: 0.7 },
+            enemy: { index: 1, scale: 0.5 },
+            base: { index: 2, scale: 0.7 },
+            star: { index: 3, scale: 0.4 }
         }
         let key = 0
         return objs.map(o => <Sprite {...sprite[o.type]}
@@ -80,7 +79,7 @@ const mk = {
     },
     SrsMarkers: (objs = []) => {
         const sprite = {
-            federation: { index: 0, scale: 0.7 },
+            friendly: { index: 0, scale: 0.7 },
             enemy: { index: 1, scale: 0.5 },
             base: { index: 2, scale: 0.5 },
             star: { index: 3, scale: 0.4 }
@@ -96,31 +95,34 @@ const mk = {
 }
 
 const scan = {
-    srs: ([sensors, setSensors], game, ship) => {
-        const [sector, srs] = shortRangeScan(game, sensors.sectors, ship)
-        setSensors(prev => ({ ...prev, sector, srs }))
+    srs: ({ state: sensors, dispatch }, game, ship) => {
+        const [sector, srs] = shortRangeScan(game, ship, sensors.sectors)
+        dispatch({ type: 'store-sector', payload: sector })
+        dispatch({ type: 'store-srs', payload: srs })
+        dispatch({ type: 'new-scan', payload: 'srs' })
     },
-    lrs: ([_, setSensors], game, ship) => {
-        const lrs = longRangeScan(game, ship, 0.2)
-        setSensors(prev => ({ ...prev, lrs }))
+    lrs: ({ dispatch }, game, ship) => {
+        const lrs = longRangeScan(game, ship, 0.2).concat([ship])
+        dispatch({ type: 'store-lrs', payload: lrs })
+        dispatch({ type: 'new-scan', payload: 'lrs' })
     }
 }
 
-const evt = {
-    lrsClick: (e, shipCtx) => {
-        const bounds = e.currentTarget.getBoundingClientRect()
-        let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
-        point = Convert.canvas2polar(point, bounds)
-        point = Vector.Polar.diff(point, shipCtx.ship.position,)
-        shipCtx.setShip(prev => { return { ...prev, heading: point } })
-    }
-}
+// const evt = {
+//     lrsClick: (e, shipCtx) => {
+//         const bounds = e.currentTarget.getBoundingClientRect()
+//         let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
+//         point = Convert.canvas2polar(point, bounds)
+//         point = Vector.Polar.diff(point, shipCtx.ship.position,)
+//         shipCtx.setShip(prev => { return { ...prev, heading: point } })
+//     }
+// }
 
 export const Sensors = props => {
 
-    const ctx = useContext(SensorContext)
-    const game = useContext(GameContext)[0]
-    const ship = useContext(ShipContext)[0]
+    const ctx = useSensor()
+    const { state: game } = useGame()
+    const { state: ship } = useShip()
 
     return (
         <Fragment>
@@ -129,11 +131,11 @@ export const Sensors = props => {
                 <FrameButton onClick={() => scan.lrs(ctx, game, ship)} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <CelPanel height={450} width={450} >
-                {ctx[0].selected === 'srs'
-                    ? <ShortRangeScanner items={ctx[0].srs} />
-                    : <LongRangeScanner items={ctx[0].lrs} />}
+                {ctx.state.selected === 'srs'
+                    ? <ShortRangeScanner items={ctx.state.srs} />
+                    : <LongRangeScanner items={ctx.state.lrs} />}
             </CelPanel>
-            <div style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{ctx[0].sector.name}</div>
+            <div style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{ctx.state.sector.name}</div>
 
         </Fragment>
     )

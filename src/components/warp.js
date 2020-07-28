@@ -1,18 +1,18 @@
 import { Vector } from 'coordinates'
-import React, { Fragment, useContext } from 'react'
-import { ControlBox, FrameButton, FrameButtonBar } from '.'
-import { ShipContext, WarpContext } from './context'
-import { DisplayControl } from './controls'
+import React, { Fragment } from 'react'
+import { ControlBox, DisplayControl } from './controls'
+import { FrameButton, FrameButtonBar } from './frame'
+import { useShip, useWarp } from './store'
 
-const move = ([ship, setShip], heading) => {
-    const position = Vector.Polar.sum(ship.position, heading)
-    setShip(prev => ({ ...prev, position }))
+const move = ({ state, dispatch }, heading) => {
+    const position = Vector.Polar.sum(state.position, heading)
+    dispatch({ action: 'setPosition', payload: position })
 }
 
 export const WarpControl = props => {
-    const shipCtx = useContext(ShipContext)
-    const [warp, _] = useContext(WarpContext)
-    console.log('warp')
+    const shipCtx = useShip()
+    const { state: warp } = useWarp()
+
     return (
         <Fragment>
             <FrameButtonBar>
