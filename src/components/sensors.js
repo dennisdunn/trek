@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Convert, longRangeScan, shortRangeScan, Vector, getSectorContaining } from 'trek-engine'
 import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, Sprite, Spritesheet } from '.'
-import { useGame, useSensor, useShip, useWarp } from './store'
+import { useGame, useSensor, useShip, useWarp, useTorpedo } from './store'
+import { torpedo } from './reducers'
 
 const draw = {
     Axis: ctx => {
@@ -82,7 +83,7 @@ const mk = {
             friendly: { index: 0, scale: 0.7 },
             enemy: { index: 1, scale: 0.5 },
             base: { index: 2, scale: 0.5 },
-            star: { index: 3, scale: 0.4 }
+            star: { index: 3, scale: 0.3 }
         }
 
         let key = 0
@@ -96,13 +97,12 @@ const mk = {
 
 const scan = {
     srs: (sensors, game, ship) => {
-        const [sector, results] = shortRangeScan(game.state, ship, sensors.sectors)
-        sensors.dispatch({ type: 'store-sector', payload: sector })
+        const results = shortRangeScan(game.state, ship, sensors.sectors)
         sensors.dispatch({ type: 'store-srs', payload: results })
         sensors.dispatch({ type: 'new-scan', payload: 'srs' })
     },
     lrs: (sensors, game, ship) => {
-        const [sector, results] = longRangeScan(game.state, ship, sensors.sectors, 0.2)
+        const results = longRangeScan(game.state, ship, sensors.sectors, 0.2)
         sensors.dispatch({ type: 'append-lrs', payload: results })
         sensors.dispatch({ type: 'new-scan', payload: 'lrs' })
     }
@@ -115,6 +115,13 @@ const evt = {
         point = Convert.canvas2polar(point, bounds)
         point = Vector.Polar.diff(point, ship.position,)
         dispatch({ type: 'new-heading', payload: point })
+    },
+    srsClick: (e, ship, dispatch) => {
+        const bounds = e.currentTarget.getBoundingClientRect()
+        let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
+        point = Convert.canvas2polar(point, bounds)
+        point = Vector.Polar.diff(point, ship.position,)
+        dispatch({ type: 'new-target', payload: point })
     }
 }
 
@@ -123,6 +130,12 @@ export const Sensors = props => {
     const game = useGame()
     const ship = useShip()
     const warp = useWarp()
+    const torpedo = useTorpedo()
+
+    useEffect(() => {
+        const sector = getSectorContaining(sensors.sectors, ship)
+        sensors.dispatch({ type: 'store-sector', payload: sector })
+    }, [ship.position])
 
     return (
         <Fragment>
@@ -132,7 +145,7 @@ export const Sensors = props => {
             </FrameButtonBar>
             <CelPanel height={450} width={450} >
                 {sensors.selected === 'srs'
-                    ? <ShortRangeScanner items={sensors.srs} />
+                    ? <ShortRangeScanner items={sensors.srs} onClick={e => evt.srsClick(e, ship, torpedo.dispatch)} />
                     : <LongRangeScanner items={sensors.lrs} position={ship.position} onClick={e => evt.lrsClick(e, ship, warp.dispatch)} />}
             </CelPanel>
             <div style={{ position: 'absolute', top: '90%', right: '1rem', fontSize: '1.5rem' }}>{sensors.sector.name}</div>
