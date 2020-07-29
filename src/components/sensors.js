@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { longRangeScan, shortRangeScan } from 'trek-engine'
+import { Convert, longRangeScan, shortRangeScan, Vector, getSectorContaining } from 'trek-engine'
 import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, Sprite, Spritesheet } from '.'
-import { useGame, useSensor, useShip } from './store'
+import { useGame, useSensor, useShip, useWarp } from './store'
 
 const draw = {
     Axis: ctx => {
@@ -66,10 +66,10 @@ const mk = {
     },
     LrsMarkers: (objs = []) => {
         const sprite = {
-            friendly: { index: 0, scale: 0.7 },
-            enemy: { index: 1, scale: 0.5 },
-            base: { index: 2, scale: 0.7 },
-            star: { index: 3, scale: 0.4 }
+            friendly: { index: 0, scale: 0.6 },
+            enemy: { index: 1, scale: 0.4 },
+            base: { index: 2, scale: 0.4 },
+            star: { index: 3, scale: 0.2 }
         }
         let key = 0
         return objs.map(o => <Sprite {...sprite[o.type]}
@@ -95,34 +95,35 @@ const mk = {
 }
 
 const scan = {
-    srs: ({ state: sensors, dispatch }, game, ship) => {
-        const [sector, srs] = shortRangeScan(game, ship, sensors.sectors)
+    srs: ({ state, dispatch }, game, ship) => {
+        const [sector, results] = shortRangeScan(game, ship, state.sectors)
         dispatch({ type: 'store-sector', payload: sector })
-        dispatch({ type: 'store-srs', payload: srs })
+        dispatch({ type: 'store-srs', payload: results })
         dispatch({ type: 'new-scan', payload: 'srs' })
     },
-    lrs: ({ dispatch }, game, ship) => {
-        const lrs = longRangeScan(game, ship, 0.2).concat([ship])
-        dispatch({ type: 'store-lrs', payload: lrs })
+    lrs: ({ state, dispatch }, game, ship) => {
+        const [sector, results] = longRangeScan(game, ship, state.sectors, 0.2)
+        dispatch({ type: 'append-lrs', payload: results })
         dispatch({ type: 'new-scan', payload: 'lrs' })
     }
 }
 
-// const evt = {
-//     lrsClick: (e, shipCtx) => {
-//         const bounds = e.currentTarget.getBoundingClientRect()
-//         let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
-//         point = Convert.canvas2polar(point, bounds)
-//         point = Vector.Polar.diff(point, shipCtx.ship.position,)
-//         shipCtx.setShip(prev => { return { ...prev, heading: point } })
-//     }
-// }
+const evt = {
+    lrsClick: (e, ship, dispatch) => {
+        const bounds = e.currentTarget.getBoundingClientRect()
+        let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
+        point = Convert.canvas2polar(point, bounds)
+        point = Vector.Polar.diff(point, ship.position,)
+        dispatch({ type: 'new-heading', payload: point })
+    }
+}
 
 export const Sensors = props => {
 
     const ctx = useSensor()
     const { state: game } = useGame()
     const { state: ship } = useShip()
+    const { dispatch } = useWarp()
 
     return (
         <Fragment>
@@ -133,10 +134,9 @@ export const Sensors = props => {
             <CelPanel height={450} width={450} >
                 {ctx.state.selected === 'srs'
                     ? <ShortRangeScanner items={ctx.state.srs} />
-                    : <LongRangeScanner items={ctx.state.lrs} />}
+                    : <LongRangeScanner items={ctx.state.lrs} position={ship.position} onClick={e => evt.lrsClick(e, ship, dispatch)} />}
             </CelPanel>
             <div style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{ctx.state.sector.name}</div>
-
         </Fragment>
     )
 }
@@ -159,7 +159,7 @@ export const ShortRangeScanner = ({ items, onClick = () => { } }) => {
     );
 }
 
-export const LongRangeScanner = ({ items, onClick = () => { } }) => {
+export const LongRangeScanner = ({ items, position, onClick = () => { } }) => {
     const [markers, setMarkers] = useState([])
 
     useEffect(() => {
@@ -171,6 +171,7 @@ export const LongRangeScanner = ({ items, onClick = () => { } }) => {
             <Cel draw={draw.Sectors} polar />
             <Cel draw={draw.GalacticGrid} polar onClick={onClick} />
             <Spritesheet src='/assets/spritesheet.png' size={50}>
+                <Sprite index={0} scale={0.6} position={position} />
                 {markers}
             </Spritesheet>
         </Fragment>

@@ -8,7 +8,7 @@ export const game = (state, action) => {
 export const ship = (state, action) => {
     switch (action.type) {
         case 'new-position':
-            return { ...state, postion: action.payload }
+            return { ...state, position: action.payload }
         default:
             return state
     }
@@ -43,8 +43,9 @@ export const sensor = (state, action) => {
             return { ...state, selected: action.payload }
         case 'store-srs':
             return { ...state, srs: action.payload }
-        case 'store-lrs':
-            return { ...state, lrs: action.payload }
+        case 'append-lrs':
+            const data = new Set(state.lrs.concat(action.payload))
+            return { ...state, lrs: Array.from(data.values()) }
         case 'store-sector':
             return { ...state, sector: action.payload }
         default:

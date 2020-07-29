@@ -2,21 +2,25 @@ import { Vector } from 'coordinates'
 import React, { Fragment } from 'react'
 import { ControlBox, DisplayControl } from './controls'
 import { FrameButton, FrameButtonBar } from './frame'
-import { useShip, useWarp } from './store'
-
-const move = ({ state, dispatch }, heading) => {
-    const position = Vector.Polar.sum(state.position, heading)
-    dispatch({ action: 'setPosition', payload: position })
-}
+import { useShip, useWarp, useSensor } from './store'
+import { getSectorContaining } from 'trek-engine'
 
 export const WarpControl = props => {
-    const shipCtx = useShip()
+    const ship = useShip()
+    const sensor = useSensor()
     const { state: warp } = useWarp()
+
+    const engageClicked = () => {
+        const position = Vector.Polar.sum(ship.state.position, warp.heading)
+        const sector = getSectorContaining(sensor.state.sectors, { ...ship.state, position })
+        ship.dispatch({ type: 'new-position', payload: position })
+        sensor.dispatch({ type: 'store-sector', payload: sector })
+    }
 
     return (
         <Fragment>
             <FrameButtonBar>
-                <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={() => move(shipCtx, warp.heading)} />
+                <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={engageClicked} />
             </FrameButtonBar>
             <ControlBox>
                 <DisplayControl title='Energy' value={warp.energy} />
