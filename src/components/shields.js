@@ -4,12 +4,12 @@ import { useShield } from './store'
 
 
 export const ShieldControl = props => {
-    const { state: shields, dispatch } = useShield()
+    const shields = useShield()
 
     return (
         <Fragment>
             <ControlBox>
-                <RangeControl min={0} max={500} value={shields.energy} onInput={e => dispatch({ type: 'store-energy', payload: Number.parseFloat(e.target.value) })} />
+                <RangeControl min={0} max={500} value={shields.energy} onInput={e => shields.dispatch({ type: 'store-energy', payload: Number.parseFloat(e.target.value) })} />
                 <DisplayControl title='Shield Engergy' value={shields.energy} />
             </ControlBox>
         </Fragment>

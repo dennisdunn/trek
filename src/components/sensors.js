@@ -95,16 +95,16 @@ const mk = {
 }
 
 const scan = {
-    srs: ({ state, dispatch }, game, ship) => {
-        const [sector, results] = shortRangeScan(game, ship, state.sectors)
-        dispatch({ type: 'store-sector', payload: sector })
-        dispatch({ type: 'store-srs', payload: results })
-        dispatch({ type: 'new-scan', payload: 'srs' })
+    srs: (sensors, game, ship) => {
+        const [sector, results] = shortRangeScan(game.state, ship, sensors.sectors)
+        sensors.dispatch({ type: 'store-sector', payload: sector })
+        sensors.dispatch({ type: 'store-srs', payload: results })
+        sensors.dispatch({ type: 'new-scan', payload: 'srs' })
     },
-    lrs: ({ state, dispatch }, game, ship) => {
-        const [sector, results] = longRangeScan(game, ship, state.sectors, 0.2)
-        dispatch({ type: 'append-lrs', payload: results })
-        dispatch({ type: 'new-scan', payload: 'lrs' })
+    lrs: (sensors, game, ship) => {
+        const [sector, results] = longRangeScan(game.state, ship, sensors.sectors, 0.2)
+        sensors.dispatch({ type: 'append-lrs', payload: results })
+        sensors.dispatch({ type: 'new-scan', payload: 'lrs' })
     }
 }
 
@@ -119,24 +119,23 @@ const evt = {
 }
 
 export const Sensors = props => {
-
-    const ctx = useSensor()
-    const { state: game } = useGame()
-    const { state: ship } = useShip()
-    const { dispatch } = useWarp()
+    const sensors = useSensor()
+    const game = useGame()
+    const ship = useShip()
+    const warp = useWarp()
 
     return (
         <Fragment>
             <FrameButtonBar>
-                <FrameButton onClick={() => scan.srs(ctx, game, ship)} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => scan.lrs(ctx, game, ship)} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => scan.srs(sensors, game, ship)} className='lcars-hopbush-bg' text='Short Range Scan' />
+                <FrameButton onClick={() => scan.lrs(sensors, game, ship)} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <CelPanel height={450} width={450} >
-                {ctx.state.selected === 'srs'
-                    ? <ShortRangeScanner items={ctx.state.srs} />
-                    : <LongRangeScanner items={ctx.state.lrs} position={ship.position} onClick={e => evt.lrsClick(e, ship, dispatch)} />}
+                {sensors.selected === 'srs'
+                    ? <ShortRangeScanner items={sensors.srs} />
+                    : <LongRangeScanner items={sensors.lrs} position={ship.position} onClick={e => evt.lrsClick(e, ship, warp.dispatch)} />}
             </CelPanel>
-            <div style={{ position: 'absolute', top: '90%', right: 0, fontSize: '1.5rem' }}>{ctx.state.sector.name}</div>
+            <div style={{ position: 'absolute', top: '90%', right: '1rem', fontSize: '1.5rem' }}>{sensors.sector.name}</div>
         </Fragment>
     )
 }

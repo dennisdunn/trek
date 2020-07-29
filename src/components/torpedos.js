@@ -4,7 +4,7 @@ import { FrameButton, FrameButtonBar } from './frame'
 import { useTorpedo } from './store'
 
 export const TorpedoControl = props => {
-    const { state: torpedos } = useTorpedo()
+    const torpedos = useTorpedo()
 
     return (
         <Fragment>

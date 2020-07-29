@@ -11,11 +11,11 @@ const defaultDialog = [
 ]
 
 export const Introduction = ({ msgs = defaultDialog }) => {
-    const { dispatch } = useComms()
+    const comms = useComms()
 
     useEffect(() => {
         // const updates = dialog.map((msg) => () => actions.setter(prev => ({ log: [...prev.log, msg] })))
-        dispatch({ action: 'set', msgs })
+        comms.dispatch({ action: 'set', msgs })
     }, [])
 
     return null;

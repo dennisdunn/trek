@@ -8,11 +8,11 @@ import { getSectorContaining } from 'trek-engine'
 export const WarpControl = props => {
     const ship = useShip()
     const sensor = useSensor()
-    const { state: warp } = useWarp()
+    const warp = useWarp()
 
     const engageClicked = () => {
-        const position = Vector.Polar.sum(ship.state.position, warp.heading)
-        const sector = getSectorContaining(sensor.state.sectors, { ...ship.state, position })
+        const position = Vector.Polar.sum(ship.position, warp.heading)
+        const sector = getSectorContaining(sensor.sectors, { ...ship.state, position })
         ship.dispatch({ type: 'new-position', payload: position })
         sensor.dispatch({ type: 'store-sector', payload: sector })
     }
