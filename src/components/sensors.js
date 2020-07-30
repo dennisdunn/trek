@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Convert, getSectorContaining, longRangeScan, shortRangeScan, Vector } from 'trek-engine'
 import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, Sprite, Spritesheet } from '.'
 import { useGame, useSensor, useShip, useTorpedo, useWarp } from './store'
+import { sensor } from './reducers/sensors'
 const draw = {
     Axis: ctx => {
         const halfW = ctx.canvas.width / 2;
@@ -30,7 +31,7 @@ const draw = {
         ctx.stroke();
     },
     SectorGrid: ctx => {
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = 'lightgray';
         draw.Axis(ctx);
 
         ctx.beginPath();
@@ -57,10 +58,10 @@ const draw = {
 }
 
 const mk = {
-    relativeTitle: position => {
+    bearingTitle: position => {
         return { title: `Range: ${position.r.toFixed(3)}\nBearing: ${position.theta.toFixed(3)}` }
     },
-    absoluteTitle: position => {
+    positionTitle: position => {
         return { title: `ρ: ${position.r.toFixed(3)}\nθ: ${position.theta.toFixed(3)}` }
     },
     LrsMarkers: (objs = []) => {
@@ -73,7 +74,7 @@ const mk = {
         let key = 0
         return objs.map(o => <Sprite {...sprite[o.type]}
             position={o.position}
-            {...mk.absoluteTitle(o.position)}
+            {...mk.positionTitle(o.position)}
             key={key++} />)
     },
     SrsMarkers: (localOrigin, objs = []) => {
@@ -88,7 +89,7 @@ const mk = {
         const scale = 1 / Math.max(...objs.map(o => o.position.r))
         return objs.map(o => <Sprite {...sprite[o.type]}
             position={Vector.Polar.diff(localOrigin, o.position)}
-            {...mk.relativeTitle(o.position)}
+            {...mk.bearingTitle(o.position)}
             key={key++} />)
     }
 }
@@ -120,7 +121,13 @@ const evt = {
         point = Convert.canvas2polar(point, bounds)
         point = Vector.Polar.diff(point, ship.position,)
         dispatch({ type: 'new-target', payload: point })
-    }
+    },
+    // event2position: e => {
+    //     const bounds = e.currentTarget.getBoundingClientRect()
+    //     let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
+    //     point = Convert.canvas2polar(point, bounds)
+    //     return Vector.Polar.diff(point, ship.position,)
+    // }
 }
 
 export const Sensors = props => {
@@ -135,55 +142,72 @@ export const Sensors = props => {
         sensors.dispatch({ type: 'store-sector', payload: sector })
     }, [ship.position])
 
+    const event2position = e => {
+        const bounds = e.currentTarget.getBoundingClientRect()
+        let point = { x: e.clientX - bounds.left, y: e.clientY - bounds.top }
+        point = Convert.canvas2polar(point, bounds)
+        return Vector.Polar.diff(point, ship.position,)
+    }
+
     return (
         <Fragment>
             <FrameButtonBar>
-                <FrameButton onClick={() => scan.srs(sensors, game, ship)} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => scan.lrs(sensors, game, ship)} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => sensors.dispatch({ type: 'srs-scan', payload: { sensors, game, ship } })} className='lcars-hopbush-bg' text='Short Range Scan' />
+                <FrameButton onClick={() => sensors.dispatch({ type: 'lrs-scan', payload: { sensors, game, ship } })} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <CelPanel height={450} width={450} >
                 {sensors.selected === 'srs'
-                    ? <ShortRangeScanner items={sensors.srs} onClick={e => evt.srsClick(e, ship, torpedo.dispatch)} />
-                    : <LongRangeScanner items={sensors.lrs} position={ship.position} onClick={e => evt.lrsClick(e, ship, warp.dispatch)} />}
+                    ? <ShortRangeScanner onClick={e => torpedo.dispatch({ type: 'new-target', payload: event2position(e) })} >
+                        < ShipCel ship={ship} />
+                        <SpriteCel sprites={sensors.srs} />
+                    </ShortRangeScanner>
+                    : <LongRangeScanner onClick={e => warp.dispatch({ type: 'new-heading', payload: event2position(e) })} >
+                        <ShipCel ship={ship} />
+                        <SpriteCel sprites={sensors.lrs} />
+                    </LongRangeScanner>
+                }
             </CelPanel>
             <div style={{ position: 'absolute', top: '90%', right: '1rem', fontSize: '1.5rem' }}>{sensors.sector.name}</div>
-        </Fragment>
+        </Fragment >
     )
 }
 
-export const ShortRangeScanner = ({ items, onClick = () => { } }) => {
-    const [markers, setMarkers] = useState([])
-
-    useEffect(() => {
-        setMarkers(mk.SrsMarkers({ r: 0, theta: 0 }, items))
-    }, [items])
-
+export const ShortRangeScanner = ({ children, onClick = () => { } }) => {
     return (
         <Fragment>
             <Cel draw={draw.SectorGrid} polar onClick={onClick} />
-            <Spritesheet src='/assets/spritesheet.png' size={50}>
-                <Sprite index={0} scale={0.7} />
-                {markers}
-            </Spritesheet>
+            {children}
         </Fragment>
     );
 }
 
-export const LongRangeScanner = ({ items, position, onClick = () => { } }) => {
-    const [markers, setMarkers] = useState([])
-
-    useEffect(() => {
-        setMarkers(mk.LrsMarkers(items))
-    }, [items])
-
+export const LongRangeScanner = ({ children, onClick = () => { } }) => {
     return (
         <Fragment>
             <Cel draw={draw.Sectors} polar />
             <Cel draw={draw.GalacticGrid} polar onClick={onClick} />
-            <Spritesheet src='/assets/spritesheet.png' size={50}>
-                <Sprite index={0} scale={0.6} position={position} zIndex={2010} />
-                {markers}
-            </Spritesheet>
+            {children}
         </Fragment>
     );
+}
+
+export const SpriteCel = ({ sprites = <Fragment /> }) => {
+    return (
+        <Spritesheet src='/assets/spritesheet.png' size={50}>
+            {sprites.map(s => <Sprite {...s} {...mk.bearingTitle(s.position)} />)}
+        </Spritesheet>
+    )
+}
+
+export const ShipCel = ({ ship }) => {
+    return (
+        <Spritesheet src='/assets/spritesheet.png' size={50}>
+            <Sprite index={0}
+                scale={0.6}
+                zIndex={2500}
+                position={ship.position}
+                title={`${ship.name || '[...]'}\n${mk.positionTitle(ship.position).title}`}
+            />
+        </Spritesheet>
+    )
 }

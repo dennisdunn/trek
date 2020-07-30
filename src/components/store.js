@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { Init } from 'trek-engine';
-import * as Reducers from './reducers';
+import * as Reducers from './reducers/reducers';
+import { sensor } from './reducers/sensors'
 
 const list2obj = ([state, dispatch]) => ({ ...state, dispatch })
 const list2objWstate = ([state, dispatch]) => ({ state, dispatch })
@@ -25,7 +26,7 @@ export const StoreProvider = ({ children }) => {
         comms: useReducer(Reducers.comms, Init.comms()),
         damage: useReducer(Reducers.damage, Init.damage()),
         status: useReducer(Reducers.status, Init.status()),
-        sensor: useReducer(Reducers.sensor, Init.sensors()),
+        sensor: useReducer(sensor, Init.sensors()),
         warp: useReducer(Reducers.warp, Init.warp()),
         shields: useReducer(Reducers.shield, Init.shields()),
         torpedos: useReducer(Reducers.torpedo, Init.torpedos()),
