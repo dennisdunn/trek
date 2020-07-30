@@ -49,7 +49,7 @@ export const Spritesheet = ({ src, size = 50, children }) => {
     )
 }
 
-export const Sprite = ({ index = 0, scale = 1.0, position = { r: 0, theta: 0 }, title = '' }) => {
+export const Sprite = ({ index = 0, scale = 1.0, position = { r: 0, theta: 0 }, title = '', zIndex = 2000 }) => {
     const ref = React.createRef()
     const panel = React.useContext(CelContext)
     const spritesheet = React.useContext(SpritesheetContext)
@@ -67,7 +67,7 @@ export const Sprite = ({ index = 0, scale = 1.0, position = { r: 0, theta: 0 }, 
     }, [spritesheet])
 
     return (
-        <canvas style={{ position: 'absolute', ...spritePosition }}
+        <canvas style={{ position: 'absolute', ...spritePosition, zIndex }}
             height={size}
             width={size}
             title={title}

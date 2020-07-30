@@ -1,9 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Convert, longRangeScan, shortRangeScan, Vector, getSectorContaining } from 'trek-engine'
+import { Convert, getSectorContaining, longRangeScan, shortRangeScan, Vector } from 'trek-engine'
 import { Cel, CelPanel, colors, FrameButton, FrameButtonBar, Sprite, Spritesheet } from '.'
-import { useGame, useSensor, useShip, useWarp, useTorpedo } from './store'
-import { torpedo } from './reducers'
-
+import { useGame, useSensor, useShip, useTorpedo, useWarp } from './store'
 const draw = {
     Axis: ctx => {
         const halfW = ctx.canvas.width / 2;
@@ -26,7 +24,7 @@ const draw = {
 
         ctx.beginPath();
         for (let i = 1; i <= 4; i++) {
-            const r = 225 * Math.sqrt(i / 4)
+            const r = ctx.canvas.width / 2 * Math.sqrt(i / 4)
             ctx.arc(0, 0, r, 0, 2 * Math.PI)
         }
         ctx.stroke();
@@ -67,10 +65,10 @@ const mk = {
     },
     LrsMarkers: (objs = []) => {
         const sprite = {
-            friendly: { index: 0, scale: 0.6 },
-            enemy: { index: 1, scale: 0.4 },
-            base: { index: 2, scale: 0.4 },
-            star: { index: 3, scale: 0.2 }
+            friendly: { index: 0, scale: 0.6, zIndex: 2010 },
+            enemy: { index: 1, scale: 0.4, zIndex: 2009 },
+            base: { index: 2, scale: 0.4, zIndex: 2008 },
+            star: { index: 3, scale: 0.2, zIndex: 2007 }
         }
         let key = 0
         return objs.map(o => <Sprite {...sprite[o.type]}
@@ -78,18 +76,18 @@ const mk = {
             {...mk.absoluteTitle(o.position)}
             key={key++} />)
     },
-    SrsMarkers: (objs = []) => {
+    SrsMarkers: (localOrigin, objs = []) => {
         const sprite = {
-            friendly: { index: 0, scale: 0.7 },
-            enemy: { index: 1, scale: 0.5 },
-            base: { index: 2, scale: 0.5 },
-            star: { index: 3, scale: 0.3 }
+            friendly: { index: 0, scale: 0.7, zIndex: 2010 },
+            enemy: { index: 1, scale: 0.5, zIndex: 2009 },
+            base: { index: 2, scale: 0.5, zIndex: 2008 },
+            star: { index: 3, scale: 0.3, zIndex: 2007 }
         }
 
         let key = 0
         const scale = 1 / Math.max(...objs.map(o => o.position.r))
         return objs.map(o => <Sprite {...sprite[o.type]}
-            position={{ ...o.position, r: scale * o.position.r }}
+            position={Vector.Polar.diff(localOrigin, o.position)}
             {...mk.relativeTitle(o.position)}
             key={key++} />)
     }
@@ -157,7 +155,7 @@ export const ShortRangeScanner = ({ items, onClick = () => { } }) => {
     const [markers, setMarkers] = useState([])
 
     useEffect(() => {
-        setMarkers(mk.SrsMarkers(items))
+        setMarkers(mk.SrsMarkers({ r: 0, theta: 0 }, items))
     }, [items])
 
     return (
@@ -183,7 +181,7 @@ export const LongRangeScanner = ({ items, position, onClick = () => { } }) => {
             <Cel draw={draw.Sectors} polar />
             <Cel draw={draw.GalacticGrid} polar onClick={onClick} />
             <Spritesheet src='/assets/spritesheet.png' size={50}>
-                <Sprite index={0} scale={0.6} position={position} />
+                <Sprite index={0} scale={0.6} position={position} zIndex={2010} />
                 {markers}
             </Spritesheet>
         </Fragment>
