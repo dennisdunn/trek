@@ -26,16 +26,18 @@ export const Sensors = props => {
                 <FrameButton onClick={() => sensors.dispatch({ type: 'srs-scan', payload: { game, ship, sensors } })} className='lcars-hopbush-bg' text='Short Range Scan' />
                 <FrameButton onClick={() => sensors.dispatch({ type: 'lrs-scan', payload: { game, ship } })} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
-            <CelPanel height={450} width={450} >
-                {sensors.selected === 'srs'
-                    ? <ShortRangeScanner  >
-                        {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={e => torpedo.dispatch({ type: 'new-target', payload: p.onclick() })} />)}
-                    </ShortRangeScanner>
-                    : <LongRangeScanner onclick={e => warp.dispatch({ type: 'new-heading', payload: e2heading(e, ship.position) })} >
-                        {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}
-                    </LongRangeScanner>
-                }
-            </CelPanel>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <CelPanel height={450} width={450} >
+                    {sensors.selected === 'srs'
+                        ? <ShortRangeScanner  >
+                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={e => torpedo.dispatch({ type: 'new-target', payload: p.onclick() })} />)}
+                        </ShortRangeScanner>
+                        : <LongRangeScanner onclick={e => warp.dispatch({ type: 'new-heading', payload: e2heading(e, ship.position) })} >
+                            {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}
+                        </LongRangeScanner>
+                    }
+                </CelPanel>
+            </div>
         </Fragment >
     )
 }
