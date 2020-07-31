@@ -7,6 +7,12 @@ const styles = {
         zIndex: 1000,
         fontSize: '1.2rem'
     },
+    subtitle: {
+        position: 'absolute',
+        top: '90%',
+        right: '1rem',
+        fontSize: '1.5rem'
+    },
     frame: {
         border: '1rem solid gray',
         borderRadius: '2rem',
@@ -76,9 +82,9 @@ export const Frame = ({ type, children, justify = 'center', ...rest }) => {
     );
 }
 
-export const FrameTitle = ({ title, ...rest }) => {
+export const FrameTitle = ({ title: text, ...rest }) => {
     return (
-        <div style={styles.title} {...rest}>{title}</div>
+        <div style={styles.title} {...rest}>{text}</div>
     )
 }
 
@@ -91,5 +97,11 @@ export const FrameButtonBar = ({ children, ...rest }) => {
 export const FrameButton = ({ onClick, text, ...rest }) => {
     return (
         <button onClick={onClick} style={styles.button} {...rest}>{text}</button>
+    )
+}
+
+export const FrameSubtitle = ({ text, ...rest }) => {
+    return (
+        <div style={styles.subtitle}>{text}</div>
     )
 }

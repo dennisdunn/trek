@@ -58,6 +58,7 @@ export const shield = (state, action) => {
 }
 
 export const torpedo = (state, action) => {
+    console.log(action)
     switch (action.type) {
         case 'new-target':
             return { ...state, target: action.payload }

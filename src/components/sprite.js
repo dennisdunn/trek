@@ -49,13 +49,15 @@ export const Spritesheet = ({ src, size = 50, children }) => {
     )
 }
 
-export const Sprite = ({ index = 0, scale = 1.0, position = { r: 0, theta: 0 }, title = '', zIndex = 2000 }) => {
+export const Sprite = ({ name = '[...]', position, scale = 1.0, index, zIndex, onclick = e => { } }) => {
     const ref = React.createRef()
     const panel = React.useContext(CelContext)
     const spritesheet = React.useContext(SpritesheetContext)
     const [spritePosition, setSpritePosition] = useState({ top: 0, left: 0 })
 
     const size = scale * spritesheet.size;
+
+    // if (!scale) debugger
 
     useEffect(() => {
         // draw the sprite
@@ -70,7 +72,9 @@ export const Sprite = ({ index = 0, scale = 1.0, position = { r: 0, theta: 0 }, 
         <canvas style={{ position: 'absolute', ...spritePosition, zIndex }}
             height={size}
             width={size}
-            title={title}
-            ref={ref}></canvas>
+            title={name}
+            onClick={onclick}
+            ref={ref}>
+        </canvas>
     );
 }
