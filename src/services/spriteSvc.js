@@ -34,7 +34,7 @@ export const spritePropsFactory = {
             r: sensors.sector.outer.r - sensors.sector.inner.r,
             theta: sensors.sector.outer.theta - sensors.sector.inner.theta
         }
-        const getPosition = position => Vector.Polar.scale(Vector.Polar.diff(position, center), 1.7)
+        const getPosition = position => Vector.Polar.scale(Vector.Polar.diff(position, center), 1.65)
         const getHandler = position => e => Vector.Polar.diff(position, ship.position)
 
         return [{ ...props.srs['friendly'], ...ship, position: getPosition(ship.position) }].concat(sensors.srs.map(o => ({ ...props.srs[o.type], ...o, position: getPosition(o.position), onclick: getHandler(o.position) })))

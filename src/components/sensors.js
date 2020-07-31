@@ -18,7 +18,7 @@ export const Sensors = props => {
         const sector = getSectorContaining(sensors.sectors, ship)
         sensors.dispatch({ type: 'store-sector', payload: sector })
     }, [ship.position])
-    console.log(spritePropsFactory.srs(sensors, ship))
+
     return (
         <Fragment>
             <FrameSubtitle text={sensors.sector.name} />
@@ -29,7 +29,7 @@ export const Sensors = props => {
             <CelPanel height={450} width={450} >
                 {sensors.selected === 'srs'
                     ? <ShortRangeScanner  >
-                        {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} />)}
+                        {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={e => torpedo.dispatch({ type: 'new-target', payload: p.onclick() })} />)}
                     </ShortRangeScanner>
                     : <LongRangeScanner onclick={e => warp.dispatch({ type: 'new-heading', payload: e2heading(e, ship.position) })} >
                         {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}
