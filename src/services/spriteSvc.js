@@ -1,17 +1,4 @@
-import { Vector } from 'trek-engine'
-import { sensor } from '../components/reducers/sensors'
-
-// const addBearing = sprites => sprites.map(s => ({ ...s, data: Vector.Polar.diff(s.position, ship.position), onClick: e => console.log(e.target) }))//torpedo.dispatch({ type: 'new-target', payload: e.target.bearing }) }))
-
-
-// const mk = {
-//     titleAsBearing: position => {
-//         return { title: `Range: ${position?.r?.toFixed(3) || "[...]"}\nBearing: ${position?.theta?.toFixed(3) || "[...]"}` }
-//     },
-//     titleAsPosition: position => {
-//         return { title: `ρ: ${position?.r?.toFixed(3) || "[...]"}\nθ: ${position?.theta?.toFixed(3) || "[...]"}` }
-//     }
-// }
+import { Vector, between } from 'trek-engine'
 
 const props = {
     srs: {
@@ -30,16 +17,54 @@ const props = {
 
 export const spritePropsFactory = {
     srs: (sensors, ship) => {
-        const center = {
-            r: sensors.sector.outer.r - sensors.sector.inner.r,
-            theta: sensors.sector.outer.theta - sensors.sector.inner.theta
-        }
-        const getPosition = position => Vector.Polar.scale(Vector.Polar.diff(position, center), 1.65)
+
+        const translate = sector2translation(sensors.sector)
         const getHandler = position => e => Vector.Polar.diff(position, ship.position)
 
-        return [{ ...props.srs['friendly'], ...ship, position: getPosition(ship.position) }].concat(sensors.srs.map(o => ({ ...props.srs[o.type], ...o, position: getPosition(o.position), onclick: getHandler(o.position) })))
+        return [{ ...props.srs['friendly'], ...ship, position: translate(ship.position) }].concat(sensors.srs.map(o => ({ ...props.srs[o.type], ...o, position: translate(o.position), onclick: getHandler(o.position) })))
     },
     lrs: (sensors, ship) => {
         return [{ ...props.lrs['friendly'], ...ship }].concat(sensors.lrs.map(o => ({ ...props.lrs[o.type], ...o })))
     }
 }
+
+export const sector2translation = sector => {
+    const center = centerOfSector(sector)
+    const rotatedCenter = rotate(center, center)
+
+    return point => {
+        let p = { ...point }
+        p = rotate(center, p)
+        p = translate(rotatedCenter, p)
+        p = scale(depthOfSector(sector), p)
+        return p
+    }
+}
+
+export const centerOfSector = ({ inner, outer }) => ({ r: (outer.r - inner.r) / 2 + inner.r, theta: (outer.theta - inner.theta) / 2 + inner.theta })
+
+export const depthOfSector = ({ inner, outer }) => outer.r - inner.r
+
+export const getQuadrantIdx = ({ theta }) => between(0, theta, Math.PI / 2) ? 0
+    : between(Math.PI / 2, theta, Math.PI) ? 1
+        : between(Math.PI, theta, 3 / 2 * Math.PI) ? 2
+            : between(3 / 2 * Math.PI, theta, 2 * Math.PI) ? 3
+                : -1
+
+export const getQuadrantNum = (point) => getQuadrantIdx(point) + 1
+
+export const rotate = (center, point) => (
+    {
+        ...point,
+        theta: point.theta + 5 / 2 * Math.PI - center.theta - 2 * Math.PI
+    }
+)
+
+export const translate = (center, point) => Vector.Polar.diff(point, center)
+
+export const scale = (depth, point) => (
+    {
+        ...point,
+        r: point.r * 2 / depth
+    }
+)
