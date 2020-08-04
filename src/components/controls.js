@@ -42,7 +42,7 @@ export const AnnunciatorControl = ({ title, value, ...rest }) => {
         <div style={{ fontSize: '1.5rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <p style={{ margin: 0 }}>{title}</p>
             <p style={{ margin: 0 }}>&nbsp;&nbsp;</p>
-            <p style={{ margin: 0, backgroundColor: value, height: '1.5rem', width: '4rem' }} />
+            <p style={{ margin: 0, backgroundColor: value, height: '1.5rem', width: '4rem', border: 'none', borderRadius: '16px 16px 16px 16px' }} />
         </div>
     )
 }

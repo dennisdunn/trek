@@ -9,7 +9,7 @@ const defaultDialog = [
     "SCOTT: The warp core has breached!",
     "MCCOY: Spock, you green-blooded, pointy-eared...",
     "SPOCK: Doctor McCoy, I raise my eybrows at you.",
-    "SCOTT: Is'a no one listening? The warp core is'a not doing well!",
+    "SCOTT: Is'a no one listening? The warp core is'a not feeling well!",
     "MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!"
 ]
 
