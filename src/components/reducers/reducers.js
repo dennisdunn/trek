@@ -1,3 +1,5 @@
+import { Vector } from 'trek-engine'
+
 export const game = (state, action) => {
     switch (action.type) {
         default:
@@ -62,6 +64,8 @@ export const torpedo = (state, action) => {
     switch (action.type) {
         case 'new-target':
             return { ...state, target: action.payload }
+        case 'get-target':
+            return { ...state, target: Vector.Polar.diff(action.payload.ship, action.payload.target) }
         default:
             return state
     }

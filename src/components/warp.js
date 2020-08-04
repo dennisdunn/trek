@@ -20,7 +20,7 @@ export const WarpControl = props => {
     return (
         <Fragment>
             <FrameButtonBar>
-                <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={engageClicked} disabled={sensor.selected !== 'lrs'} />
+                <FrameButton className='lcars-dodger-blue-bg' text='Engage' onClick={engageClicked} disabled={sensor.selected === 'srs'} />
             </FrameButtonBar>
             <ControlBox>
                 <DisplayControl title='Energy' value={warp.energy} />

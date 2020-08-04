@@ -49,15 +49,13 @@ export const Spritesheet = ({ src, size = 50, children }) => {
     )
 }
 
-export const Sprite = ({ name = '[...]', position, scale = 1.0, index, zIndex, onclick = e => { } }) => {
+export const Sprite = ({ name = '[...]', position, scale = 1.0, index = 0, zIndex = 2000, data = null, onclick = undefined }) => {
     const ref = React.createRef()
     const panel = React.useContext(CelContext)
     const spritesheet = React.useContext(SpritesheetContext)
     const [spritePosition, setSpritePosition] = useState({ top: 0, left: 0 })
 
     const size = scale * spritesheet.size;
-
-    // if (!scale) debugger
 
     useEffect(() => {
         // draw the sprite
@@ -66,14 +64,18 @@ export const Sprite = ({ name = '[...]', position, scale = 1.0, index, zIndex, o
         ctx.drawImage(spritesheet.sprites, x, y, spritesheet.size, spritesheet.size, 0, 0, size, size)
         // set the position in the container
         setSpritePosition(getSpriteTopLeft(position, panel, size))
-    }, [spritesheet])
+    }, [spritesheet, position, scale, index, zIndex])
+
+    const handleClick = () => {
+        if (onclick) onclick(data)
+    }
 
     return (
         <canvas style={{ position: 'absolute', ...spritePosition, zIndex }}
             height={size}
             width={size}
             title={name}
-            onClick={onclick}
+            onClick={handleClick}
             ref={ref}>
         </canvas>
     );

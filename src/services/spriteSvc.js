@@ -1,4 +1,4 @@
-import { Vector, between } from 'trek-engine'
+import { Vector } from 'trek-engine'
 
 const props = {
     srs: {
@@ -19,39 +19,25 @@ export const spritePropsFactory = {
     srs: (sensors, ship) => {
 
         const translate = sector2translation(sensors.sector)
-        const getHandler = position => e => Vector.Polar.diff(position, ship.position)
 
-        return [{ ...props.srs['friendly'], ...ship, position: translate(ship.position) }].concat(sensors.srs.map(o => ({ ...props.srs[o.type], ...o, position: translate(o.position), onclick: getHandler(o.position) })))
+        return [{ ...props.srs.friendly, ...ship, position: translate(ship.position), data: ship.position }].concat(sensors.srs.map(o => ({ ...props.srs[o.type], ...o, position: translate(o.position), data: o.position })))
     },
     lrs: (sensors, ship) => {
-        return [{ ...props.lrs['friendly'], ...ship }].concat(sensors.lrs.map(o => ({ ...props.lrs[o.type], ...o })))
+        return [{ ...props.lrs.friendly, data: ship.position, ...ship }].concat(sensors.lrs.map(o => ({ ...props.lrs[o.type], ...o })))
     }
 }
 
 export const sector2translation = sector => {
     const center = centerOfSector(sector)
     const rotatedCenter = rotate(center, center)
-
-    return point => {
-        let p = { ...point }
-        p = rotate(center, p)
-        p = translate(rotatedCenter, p)
-        p = scale(depthOfSector(sector), p)
-        return p
-    }
+    // functional pipes are looking pretty good right about now
+    return point => scale(depthOfSector(sector), translate(rotatedCenter, rotate(center, { ...point })))
 }
+
 
 export const centerOfSector = ({ inner, outer }) => ({ r: (outer.r - inner.r) / 2 + inner.r, theta: (outer.theta - inner.theta) / 2 + inner.theta })
 
 export const depthOfSector = ({ inner, outer }) => outer.r - inner.r
-
-export const getQuadrantIdx = ({ theta }) => between(0, theta, Math.PI / 2) ? 0
-    : between(Math.PI / 2, theta, Math.PI) ? 1
-        : between(Math.PI, theta, 3 / 2 * Math.PI) ? 2
-            : between(3 / 2 * Math.PI, theta, 2 * Math.PI) ? 3
-                : -1
-
-export const getQuadrantNum = (point) => getQuadrantIdx(point) + 1
 
 export const rotate = (center, point) => (
     {
