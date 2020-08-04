@@ -5,8 +5,8 @@ export const sensor = (state, action) => {
         case 'store-sector':
             return { ...state, sector: action.payload }
         case 'srs-scan': {
-            const { game, sensors, ship } = action.payload
-            const objs = shortRangeScan(game.state, ship, sensors.sectors)
+            const { game, ship } = action.payload
+            const objs = shortRangeScan(game.state, ship, state.sectors)
             return { ...state, srs: objs, selected: 'srs' }
         }
         case 'lrs-scan': {

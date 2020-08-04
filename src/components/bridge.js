@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Comms, Frame, FrameTitle, Sensors, Status, WarpControl } from '.';
 import { PhaserControl } from './phasers';
 import { ShieldControl } from './shields';
 import { TorpedoControl } from './torpedos';
+import { useSensor, useGame, useShip } from './store'
 
 export const Bridge = props => {
+  const { dispatch } = useSensor()
+  const game = useGame()
+  const ship = useShip()
+
+  useEffect(() => {
+    dispatch({ type: 'srs-scan', payload: { game, ship } })
+  }, [])
+
   return (
     <div className='bridge'>
       <Frame className='comms lcars-atomic-tangerine-border' type='bottom' justify='left'>
