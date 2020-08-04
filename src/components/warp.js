@@ -6,8 +6,8 @@ import { useShip, useWarp, useSensor } from './store'
 import { getSectorContaining } from 'trek-engine'
 
 export const WarpControl = props => {
-    const ship = useShip()
     const sensor = useSensor()
+    const ship = useShip()
     const warp = useWarp()
 
     const engageClicked = () => {

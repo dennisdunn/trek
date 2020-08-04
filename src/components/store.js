@@ -2,6 +2,16 @@ import React, { createContext, useContext, useReducer } from 'react';
 import { Init } from 'trek-engine';
 import * as Reducers from './reducers/reducers';
 import { sensor } from './reducers/sensors'
+import { status } from './reducers/status'
+
+const defaultDialog = [
+    "SPOCK: Captain on deck.",
+    "SCOTT: The warp core has breached!",
+    "MCCOY: Spock, you green-blooded, pointy-eared...",
+    "SPOCK: Doctor McCoy, I raise my eybrows at you.",
+    "SCOTT: Is'a no one listening? The warp core is'a not doing well!",
+    "MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!"
+]
 
 const list2obj = ([state, dispatch]) => ({ ...state, dispatch })
 const list2objWstate = ([state, dispatch]) => ({ state, dispatch })
@@ -23,9 +33,9 @@ export const StoreProvider = ({ children }) => {
     const store = {
         game: useReducer(Reducers.game, Init.game()),
         ship: useReducer(Reducers.ship, Init.ship()),
-        comms: useReducer(Reducers.comms, Init.comms()),
+        comms: useReducer(Reducers.comms, { log: defaultDialog }),
         damage: useReducer(Reducers.damage, Init.damage()),
-        status: useReducer(Reducers.status, Init.status()),
+        status: useReducer(status, Init.status()),
         sensor: useReducer(sensor, Init.sensors()),
         warp: useReducer(Reducers.warp, Init.warp()),
         shields: useReducer(Reducers.shield, Init.shields()),

@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect } from 'react'
 import { getSectorContaining } from 'trek-engine'
-import { e2heading, spritePropsFactory, sector2translation } from '../services'
+import { e2heading, spritePropsFactory } from '../services'
 import { CelPanel } from './cel'
 import { FrameButton, FrameButtonBar, FrameSubtitle } from './frame'
 import { LongRangeScanner, ShortRangeScanner } from './scanners'
-import { useGame, useSensor, useShip, useTorpedo, useWarp } from './store'
 import { Sprite } from './sprite'
+import { useComms, useGame, useSensor, useShip, useStatus, useTorpedo, useWarp } from './store'
 
 export const Sensors = props => {
     const sensors = useSensor()
@@ -13,11 +13,23 @@ export const Sensors = props => {
     const ship = useShip()
     const warp = useWarp()
     const torpedo = useTorpedo()
+    const status = useStatus()
+    const comms = useComms()
 
     useEffect(() => {
         const sector = getSectorContaining(sensors.sectors, ship)
         sensors.dispatch({ type: 'store-sector', payload: sector })
     }, [ship.position])
+
+    useEffect(() => {
+        const enemies = sensors.srs.filter(o => o.type === 'enemy').length
+        if (enemies > 0) {
+            comms.dispatch({ type: 'log-message', payload: 'CHEKOV: Enemy wessels detected.' })
+            status.dispatch({ type: 'set-alert', payload: 'red' })
+        } else {
+            status.dispatch({ type: 'set-alert', payload: 'green' })
+        }
+    }, [sensors.srs])
 
     return (
         <Fragment>

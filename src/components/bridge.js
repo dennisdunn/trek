@@ -1,11 +1,11 @@
 import React from 'react';
-import { Comms, Frame, FrameTitle, Sensors, WarpControl } from '.';
+import { Comms, Frame, FrameTitle, Sensors, WarpControl, Status } from '.';
 import { PhaserControl } from './phasers';
 import { ShieldControl } from './shields';
 import { TorpedoControl } from './torpedos';
+import { useComms } from './store'
 
 export const Bridge = props => {
-
   return (
     <div className='bridge'>
       <Frame className='comms lcars-atomic-tangerine-border' type='bottom' justify='left'>
@@ -15,6 +15,7 @@ export const Bridge = props => {
 
       <Frame className='status lcars-atomic-tangerine-border' type='bottom'>
         <FrameTitle title='Ship Status' />
+        <Status />
       </Frame>
 
       <Frame className='sensors lcars-atomic-tangerine-border' type='bracket'>

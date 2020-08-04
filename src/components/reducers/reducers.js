@@ -18,6 +18,8 @@ export const ship = (state, action) => {
 
 export const comms = (state, action) => {
     switch (action.type) {
+        case 'set':
+            return { log: action.payload }
         case 'log-message':
             return { log: [...state.log, action.payload] }
         default:
@@ -26,13 +28,6 @@ export const comms = (state, action) => {
 }
 
 export const damage = (state, action) => {
-    switch (action.type) {
-        default:
-            return state
-    }
-}
-
-export const status = (state, action) => {
     switch (action.type) {
         default:
             return state
