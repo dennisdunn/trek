@@ -38,7 +38,7 @@ export const Bridge = props => {
       </Frame>
 
       <Frame className='torpedos lcars-atomic-tangerine-border' type='top'>
-        <FrameTitle title='Photon Torpedo' />
+        <FrameTitle title='Photon Torpedos' />
         <TorpedoControl />
       </Frame>
     </div>

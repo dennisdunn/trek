@@ -13,7 +13,7 @@ export const TorpedoControl = props => {
                 <FrameButton className='lcars-tamarillo-bg' text='Launch' disabled={sensor.selected !== 'srs'} />
             </FrameButtonBar>
             <ControlBox>
-                <DisplayControl title='Torpedos' value={torpedo.inventory} />
+                <DisplayControl title='Inventory' value={torpedo.inventory} />
                 <DisplayControl title='Range' value={torpedo.target.r} precision={3} />
                 <DisplayControl title='Bearing' value={torpedo.target.theta} precision={3} />
             </ControlBox>
