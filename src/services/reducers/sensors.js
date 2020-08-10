@@ -1,4 +1,4 @@
-import { longRangeScan, shortRangeScan } from "../../services"
+import { longRangeScan, shortRangeScan } from ".."
 
 export const sensor = (state, action) => {
     switch (action.type) {

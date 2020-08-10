@@ -1,4 +1,4 @@
-import Vector from '../../services/vector'
+import Vector from '../vector'
 
 export const game = (state, action) => {
     switch (action.type) {
