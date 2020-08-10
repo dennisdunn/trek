@@ -1,4 +1,5 @@
-import { Convert, Vector } from 'trek-engine'
+import * as Convert from './convert'
+import Vector from './vector'
 
 export const e2position = e => {
     const bounds = e.currentTarget.getBoundingClientRect()

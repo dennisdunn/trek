@@ -1,4 +1,4 @@
-import { Vector } from 'trek-engine'
+import Vector from './vector'
 
 const props = {
     srs: {

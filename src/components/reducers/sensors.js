@@ -1,4 +1,4 @@
-import { longRangeScan, shortRangeScan } from "trek-engine"
+import { longRangeScan, shortRangeScan } from "../../services"
 
 export const sensor = (state, action) => {
     switch (action.type) {

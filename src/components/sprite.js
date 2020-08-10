@@ -1,5 +1,6 @@
-import { Convert, Vector } from 'coordinates';
 import React, { createContext, useEffect, useState } from 'react';
+import * as Convert from '../services/convert';
+import Vector from '../services/vector'
 import { CelContext } from './cel';
 
 const loadImage = url => {

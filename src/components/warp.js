@@ -1,9 +1,9 @@
-import { Vector } from 'coordinates'
 import React, { Fragment } from 'react'
+import { getSectorContaining } from '../services'
+import Vector from '../services/vector'
 import { ControlBox, DisplayControl } from './controls'
 import { FrameButton, FrameButtonBar } from './frame'
-import { useShip, useWarp, useSensor } from './store'
-import { getSectorContaining } from 'trek-engine'
+import { useSensor, useShip, useWarp } from './store'
 
 export const WarpControl = props => {
     const sensor = useSensor()

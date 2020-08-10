@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { Init } from 'trek-engine';
+import Init from '../services/initialization';
 import * as Reducers from './reducers/reducers';
 import { sensor } from './reducers/sensors'
 import { status } from './reducers/status'

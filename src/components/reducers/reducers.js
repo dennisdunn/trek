@@ -1,4 +1,4 @@
-import { Vector } from 'trek-engine'
+import Vector from '../../services/vector'
 
 export const game = (state, action) => {
     switch (action.type) {

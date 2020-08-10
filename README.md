@@ -1,68 +1,107 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Trek
 
-## Available Scripts
+A simple port of the gameplay of the 1970's Star Trek game.
 
-In the project directory, you can run:
+## Game environment
 
-### `yarn start`
+The game has the player hunting enemy star ships throughout the galaxy.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Game loop
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Read a command
 
-### `yarn test`
+The command processor uses a callback to return information to the calling process. (promises?) It will need to have references to the entire game context.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Player commands and parameters
 
-### `yarn build`
+- NAV - navigate command
+  - heading as a polar coordinate with the ship at the pole
+- SRS - short range sensor scan
+- LRS - long range sensor scan
+- PHA - phaser control
+  - energy
+- TOR - photon torpedo control
+  - heading
+- SHE - shield control
+  - energy
+- DAM - damage control
+- COM - library computer
+  - one of the library computer commands
+    - 0 - Cumulative galactic record
+    - 1 - Status report
+    - 2 - Photon torpedo data
+    - 3 - Starbase navigation data
+    - 4 - navigation calculator
+    - 5 - Galactic region name map
+- XXX - resign command
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Execute command
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Update the game state.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Execute response
 
-### `yarn eject`
+Update the game state.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Coordinates
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+A simple library for manipulating rectangular, polar, and canvas coordinates.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Coordinates
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Rectangular coordinates are objects with x and y properties: {x:0, y:0} denoting
+a point on the Cartesian plane.
 
-## Learn More
+Polar coordinates are objects with r (radius) and theta (angle) properties: {r:0, theta:0} describing
+points on the polar plane.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Canvas coordinates are similar to cartesian coordinates except x and y are constrainted to positive values and describe a position on an HTML5 or svg canvas where the origin is the upper-left corner of the canvas.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Angels are measured in radians, 1 radian = 57.2958 degrees.
 
-### Code Splitting
+## API
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Conversion Functions
 
-### Analyzing the Bundle Size
+```
+Convert.deg2rad(degree: number)=> number
+Convert.rad2deg(radian: number) => number
+Convert.rect2polar(point: IRect) => IPolar
+Covert.polar2rect(point: IPolar) => IRect
+Covert.canvas2polar(point: IRect, bounds: IBounds) => IPolar
+Covert.polar2canvas (point: IPolar, bounds: IBounds) => IRect
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Vector Math
 
-### Making a Progressive Web App
+```
+Vector.Rect.sum(a: IRect, b: IRect) => IRect
+Vector.Rect.diff(a: IRect, b: IRect) => IRect
+Vector.Rect.negate(a: IRect) => IRect
+Vector.Rect.magnitude(a: IRect) => number
+Vector.Rect.scale(a: IRect, scalar: number) => IRect
+Vector.Rect.scaleXY(a: IRect, scale: IRect) => IRect
+Vector.Rect.dot(a: IRect, b: IRect) => number
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```
+Vector.Polar.sum(a: IPolar, b: IPolar) => IPolar
+Vector.Polar.diff(a: IPolar, b: IPolar) => IPolar
+Vector.Polar.negate(a: IPolar) => IPolar
+Vector.Polar.magnitude(a: IPolar) => number
+Vector.Polar.scale(a: IPolar, scalar: number) => IPolar
+Vector.Polar.dot(a: IPolar, b: IPolar) => number
+```
 
-### Advanced Configuration
+### Geometry Functions
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```
+Geometry.Polar.contains(bounds: IBoundingArc, point: IPolar) => boolean
+Geometry.Polar.within (bounds: IBoundingCircle, point: IPolar) => boolean
+Geometry.Polar.distance(a: IPolar, b: IPolar) => number
+```
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```
+Geometry.Rect.contains(bounds: IBoundingBox, point: IRect) => boolean
+Geometry.Rect.distance(a: IRect, b: IRect) => number
+```

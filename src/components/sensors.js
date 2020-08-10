@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { getSectorContaining } from 'trek-engine'
-import { e2heading, spritePropsFactory } from '../services'
+import { e2heading, getSectorContaining, spritePropsFactory } from '../services'
 import { CelPanel } from './cel'
 import { FrameButton, FrameButtonBar, FrameSubtitle } from './frame'
 import { LongRangeScanner, ShortRangeScanner } from './scanners'
