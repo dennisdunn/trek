@@ -8,10 +8,7 @@ export const sum = (a: IRect, b: IRect): IRect => {
 }
 
 export const diff = (a: IRect, b: IRect): IRect => {
-    return {
-        x: a.x - b.x,
-        y: a.y - b.y
-    }
+    return sum(a, negate(b))
 }
 
 export const negate = (a: IRect): IRect => {

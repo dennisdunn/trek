@@ -1,6 +1,6 @@
-import { Convert } from '../src/services/convert';
-import { Vector } from '../src/services/vector';
-import { IRect } from '../src/services/interfaces';
+import * as Convert from '../services/convert';
+import Vector from '../services/vector';
+import { IRect } from '../services/interfaces';
 
 const polar_pole = { r: 0, theta: 0 }
 const polar_I = { r: 1, theta: Math.PI / 4 };

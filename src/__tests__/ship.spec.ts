@@ -1,5 +1,5 @@
-import { Init } from '../src/services/initialization';
-import { longRangeScan, shortRangeScan } from '../src/services/ship';
+import Init from '../services/initialization';
+import { longRangeScan, shortRangeScan } from '../services/ship';
 
 const game = Init.game();
 const player = Init.ship();

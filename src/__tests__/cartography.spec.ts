@@ -1,5 +1,5 @@
-import { createSectors, getSectorByName, getSectorContaining, QUADRANT_NAMES, REGION_NAMES } from '../src/services/cartography';
-import { ISector } from '../src/services/interfaces';
+import { createSectors, getSectorByName, getSectorContaining, QUADRANT_NAMES, REGION_NAMES } from '../services/cartography';
+import { ISector } from '../services/interfaces';
 
 const sectors: ISector[] = createSectors(REGION_NAMES, QUADRANT_NAMES);
 

@@ -1,7 +1,7 @@
-import { Geometry } from '../src/services/geometry';
-import { getSectorByName } from '../src/services/cartography';
-import { Init } from '../src/services/initialization';
-import { IPositionable } from '../src/services/interfaces';
+import { Geometry } from '../services/geometry';
+import { getSectorByName } from '../services/cartography';
+import Init from '../services/initialization';
+import { IPositionable } from '../services/interfaces';
 
 const game = Init.game();
 const player = Init.ship();
