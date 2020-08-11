@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { Comms, Frame, FrameTitle, Sensors, Status, WarpControl } from '.';
 import { PhaserControl } from './phasers';
 import { ShieldControl } from './shields';
+import { useDispatch, useGame, useShip } from './store';
 import { TorpedoControl } from './torpedos';
-import { useSensor, useGame, useShip } from './store'
 
 export const Bridge = props => {
-  const { dispatch } = useSensor()
-  const game = useGame().state
-  const ship = useShip().state
+  const game = useGame()
+  const ship = useShip()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch({ type: 'srs-scan', payload: { game, ship } })
+    dispatch('sensors', { type: 'srs-scan', payload: { game, ship } })
   }, [])
 
   return (

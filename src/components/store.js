@@ -13,20 +13,26 @@ const defaultDialog = [
     "MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!"
 ]
 
-const list2obj = ([state, dispatch]) => ({ state, dispatch })
 
 export const Context = createContext()
 
-export const useGame = () => list2obj(useContext(Context).game)
-export const useShip = () => list2obj(useContext(Context).ship)
-export const useComms = () => list2obj(useContext(Context).comms)
-export const useDamage = () => list2obj(useContext(Context).damage)
-export const useStatus = () => list2obj(useContext(Context).status)
-export const useSensor = () => list2obj(useContext(Context).sensor)
-export const useWarp = () => list2obj(useContext(Context).warp)
-export const useShield = () => list2obj(useContext(Context).shields)
-export const useTorpedo = () => list2obj(useContext(Context).torpedos)
-export const usePhaser = () => list2obj(useContext(Context).phasers)
+const useGameState = key => useContext(Context)[key][0]
+
+export const useGame = () => useGameState('game')
+export const useShip = () => useGameState('ship')
+export const useComms = () => useGameState('comms')
+export const useDamage = () => useGameState('damage')
+export const useStatus = () => useGameState('status')
+export const useSensors = () => useGameState('sensors')
+export const useWarp = () => useGameState('warp')
+export const useShields = () => useGameState('shields')
+export const useTorpedos = () => useGameState('torpedos')
+export const usePhasers = () => useGameState('phasers')
+
+export const useDispatch = () => {
+    const ctx = useContext(Context)
+    return (reducer, action) => ctx[reducer][1](action)
+}
 
 export const StoreProvider = ({ children }) => {
     const store = {
@@ -35,7 +41,7 @@ export const StoreProvider = ({ children }) => {
         comms: useReducer(Reducers.comms, { log: defaultDialog }),
         damage: useReducer(Reducers.damage, Init.damage()),
         status: useReducer(status, Init.status()),
-        sensor: useReducer(sensor, Init.sensors()),
+        sensors: useReducer(sensor, Init.sensors()),
         warp: useReducer(Reducers.warp, Init.warp()),
         shields: useReducer(Reducers.shield, Init.shields()),
         torpedos: useReducer(Reducers.torpedo, Init.torpedos()),

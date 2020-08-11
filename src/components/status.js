@@ -3,7 +3,7 @@ import { AnnunciatorControl, ControlBox, DisplayControl } from './controls'
 import { useStatus } from './store'
 
 export const Status = props => {
-    const status = useStatus().state
+    const status = useStatus()
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '50%' }}>
