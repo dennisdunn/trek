@@ -7,8 +7,8 @@ import { useSensor, useGame, useShip } from './store'
 
 export const Bridge = props => {
   const { dispatch } = useSensor()
-  const game = useGame()
-  const ship = useShip()
+  const game = useGame().state
+  const ship = useShip().state
 
   useEffect(() => {
     dispatch({ type: 'srs-scan', payload: { game, ship } })

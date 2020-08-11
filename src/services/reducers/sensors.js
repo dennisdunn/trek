@@ -6,12 +6,12 @@ export const sensor = (state, action) => {
             return { ...state, sector: action.payload }
         case 'srs-scan': {
             const { game, ship } = action.payload
-            const objs = shortRangeScan(game.state, ship, state.sectors)
+            const objs = shortRangeScan(game, ship, state.sectors)
             return { ...state, srs: objs, selected: 'srs' }
         }
         case 'lrs-scan': {
             const { game, ship } = action.payload
-            const objs = longRangeScan(game.state, ship, 0.3)
+            const objs = longRangeScan(game, ship, 0.3)
             const data = new Set(state.lrs.concat(objs))
             return { ...state, lrs: Array.from(data.values()), selected: 'lrs' }
         }

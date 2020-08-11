@@ -13,12 +13,11 @@ const defaultDialog = [
     "MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!"
 ]
 
-const list2obj = ([state, dispatch]) => ({ ...state, dispatch })
-const list2objWstate = ([state, dispatch]) => ({ state, dispatch })
+const list2obj = ([state, dispatch]) => ({ state, dispatch })
 
 export const Context = createContext()
 
-export const useGame = () => list2objWstate(useContext(Context).game)
+export const useGame = () => list2obj(useContext(Context).game)
 export const useShip = () => list2obj(useContext(Context).ship)
 export const useComms = () => list2obj(useContext(Context).comms)
 export const useDamage = () => list2obj(useContext(Context).damage)

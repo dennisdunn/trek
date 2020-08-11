@@ -16,35 +16,35 @@ export const Sensors = props => {
     const comms = useComms()
 
     useEffect(() => {
-        const sector = getSectorContaining(sensors.sectors, ship)
+        const sector = getSectorContaining(sensors.state.sectors, ship.state)
         sensors.dispatch({ type: 'store-sector', payload: sector })
-    }, [ship.position])
+    }, [ship.state.position])
 
     useEffect(() => {
-        const enemies = sensors.srs.filter(o => o.type === 'enemy').length
+        const enemies = sensors.state.srs.filter(o => o.type === 'enemy').length
         if (enemies > 0) {
             comms.dispatch({ type: 'log-message', payload: 'CHEKOV: Enemy wessels detected.' })
             status.dispatch({ type: 'set-alert', payload: 'red' })
         } else {
             status.dispatch({ type: 'set-alert', payload: 'green' })
         }
-    }, [sensors.srs])
+    }, [sensors.state.srs])
 
     return (
         <Fragment>
-            <FrameSubtitle text={sensors.sector.name} />
+            <FrameSubtitle text={sensors.state.sector.name} />
             <FrameButtonBar>
-                <FrameButton onClick={() => sensors.dispatch({ type: 'srs-scan', payload: { game, ship, sensors } })} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => sensors.dispatch({ type: 'lrs-scan', payload: { game, ship } })} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => sensors.dispatch({ type: 'srs-scan', payload: { game: game.state, ship: ship.state, sensors: sensors.state } })} className='lcars-hopbush-bg' text='Short Range Scan' />
+                <FrameButton onClick={() => sensors.dispatch({ type: 'lrs-scan', payload: { game: game.state, ship: ship.state } })} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <CelPanel height={450} width={450} >
-                    {sensors.selected === 'srs'
+                    {sensors.state.selected === 'srs'
                         ? <ShortRangeScanner>
-                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => torpedo.dispatch({ type: 'get-target', payload: { ship: ship.position, target } })} />)}
+                            {spritePropsFactory.srs(sensors.state, ship.state).map(p => <Sprite {...p} onclick={target => torpedo.dispatch({ type: 'get-target', payload: { ship: ship.state.position, target } })} />)}
                         </ShortRangeScanner>
-                        : <LongRangeScanner onclick={e => warp.dispatch({ type: 'new-heading', payload: e2heading(e, ship.position) })} >
-                            {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}
+                        : <LongRangeScanner onclick={e => warp.dispatch({ type: 'new-heading', payload: e2heading(e, ship.state.position) })} >
+                            {spritePropsFactory.lrs(sensors.state, ship.state).map(p => <Sprite {...p} />)}
                         </LongRangeScanner>
                     }
                 </CelPanel>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useComms } from './store';
 
 export const Comms = props => {
-    const { log = [] } = useComms()
+    const { log = [] } = useComms().state
 
     return (
         <div style={{ fontSize: '1.4rem', marginLeft: '1rem', display: 'flex', flexDirection: 'column', marginTop: '1rem' }}>

@@ -10,12 +10,12 @@ export const TorpedoControl = props => {
     return (
         <Fragment>
             <FrameButtonBar>
-                <FrameButton className='lcars-tamarillo-bg' text='Launch' disabled={sensor.selected !== 'srs'} />
+                <FrameButton className='lcars-tamarillo-bg' text='Launch' disabled={sensor.state.selected !== 'srs'} />
             </FrameButtonBar>
             <ControlBox>
-                <DisplayControl title='Inventory' value={torpedo.inventory} />
-                <DisplayControl title='Range' value={torpedo.target.r} precision={3} />
-                <DisplayControl title='Bearing' value={torpedo.target.theta} precision={3} />
+                <DisplayControl title='Inventory' value={torpedo.state.inventory} />
+                <DisplayControl title='Range' value={torpedo.state.target.r} precision={3} />
+                <DisplayControl title='Bearing' value={torpedo.state.target.theta} precision={3} />
             </ControlBox>
         </Fragment>
     )
