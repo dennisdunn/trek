@@ -5,6 +5,8 @@ import { ControlBox, DisplayControl } from './controls'
 import { FrameButton, FrameButtonBar } from './frame'
 import { useDispatch, useSensors, useShip, useWarp } from './store'
 
+const ENERGY_PER_UNIT = 1000
+
 export const WarpControl = props => {
     const sensor = useSensors()
     const ship = useShip()
@@ -12,10 +14,17 @@ export const WarpControl = props => {
     const dispatch = useDispatch()
 
     const engageClicked = () => {
-        const position = Vector.Polar.sum(ship.position, warp.heading)
-        const sector = getSectorContaining(sensor.sectors, { ...ship, position })
-        dispatch('ship', { type: 'new-position', payload: position })
-        dispatch('sensors', { type: 'store-sector', payload: sector })
+        const energyRequired = ENERGY_PER_UNIT * warp.heading.r
+        if (warp.energy >= energyRequired) {
+            const position = Vector.Polar.sum(ship.position, warp.heading)
+            const sector = getSectorContaining(sensor.sectors, { ...ship, position })
+            dispatch('ship', { type: 'new-position', payload: position })
+            dispatch('sensors', { type: 'store-sector', payload: sector })
+            dispatch('warp', { type: 'store-energy', payload: warp.energy - energyRequired })
+            dispatch('status', { type: 'inc-stardate', payload: warp.heading.r })
+        } else {
+            dispatch('comms', { type: 'log-message', payload: "SCOTT: We do'na have the energy for this manuever." })
+        }
     }
 
     return (

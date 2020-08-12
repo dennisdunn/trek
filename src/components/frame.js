@@ -102,6 +102,6 @@ export const FrameButton = ({ onClick, text, ...rest }) => {
 
 export const FrameSubtitle = ({ text, ...rest }) => {
     return (
-        <div style={styles.subtitle}>{text}</div>
+        <div style={styles.subtitle} {...rest}>{text}</div>
     )
 }

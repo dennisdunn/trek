@@ -1,9 +1,9 @@
-const STAR_DATE_INC = 0.3
+const TIME_FACTOR = 10
 
 export const status = (state, action) => {
     switch (action.type) {
         case 'inc-stardate':
-            return ({ ...state, starDate: state.starDate + STAR_DATE_INC })
+            return ({ ...state, starDate: state.starDate + TIME_FACTOR * action.payload })
         case 'set-alert':
             return ({ ...state, alert: action.payload })
         default:
