@@ -21,7 +21,7 @@ export const Bridge = props => {
         <Comms />
       </Frame>
 
-      <Frame className='status lcars-atomic-tangerine-border' type='bottom'>
+      <Frame className='status lcars-atomic-tangerine-border' type='bottom' justify='left'>
         <FrameTitle title='Ship Status' />
         <Status />
       </Frame>

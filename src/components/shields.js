@@ -10,8 +10,9 @@ export const ShieldControl = props => {
 
     const handleInput = e => {
         const value = Number.parseFloat(e.target.value)
-        if (value <= warp.energy) {
-            const available = warp.energy + shields.energy - value
+        let available = warp.energy + shields.energy
+        if (value <= available) {
+            available -= value
             dispatch('warp', { type: 'store-energy', payload: available })
             dispatch('shields', { type: 'store-energy', payload: value })
         }

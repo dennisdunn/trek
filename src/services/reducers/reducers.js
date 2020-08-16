@@ -1,4 +1,5 @@
 import Vector from '../vector'
+import { clamp } from '../util'
 
 export const game = (state, action) => {
     switch (action.type) {
@@ -76,6 +77,8 @@ export const phaser = (state, action) => {
     switch (action.type) {
         case 'store-energy':
             return { ...state, energy: action.payload }
+        case 'deplete-energy':
+            return { ...state, energy: clamp(0, state.energy - action.payload, state.energy) }
         default:
             return state
     }

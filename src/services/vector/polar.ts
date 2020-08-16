@@ -32,3 +32,9 @@ export const dot = (a: IPolar, b: IPolar): number => {
     const d = Convert.polar2rect(b);
     return Rect.dot(c, d);
 }
+
+export const distance = (a: IPolar, b: IPolar): number => {
+    const delta = diff(a, b).r
+    return Math.sign(delta) * delta
+}
+
