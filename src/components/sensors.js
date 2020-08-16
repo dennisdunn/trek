@@ -38,7 +38,7 @@ export const Sensors = props => {
                 <CelPanel height={450} width={450} >
                     {sensors.selected === 'srs'
                         ? <ShortRangeScanner>
-                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => dispatch('torpedos', { type: 'get-target', payload: { ship: ship.position, target } })} />)}
+                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => dispatch('torpedos', { type: 'set-target', payload: target })} />)}
                         </ShortRangeScanner>
                         : <LongRangeScanner onclick={e => dispatch('warp', { type: 'new-heading', payload: e2heading(e, ship.position) })} >
                             {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}

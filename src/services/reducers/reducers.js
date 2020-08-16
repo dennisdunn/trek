@@ -2,6 +2,9 @@ import Vector from '../vector'
 
 export const game = (state, action) => {
     switch (action.type) {
+        case 'remove-item':
+            state.splice(state.indexOf(action.payload), 1)
+            return [...state];
         default:
             return state
     }
@@ -55,12 +58,15 @@ export const shield = (state, action) => {
 }
 
 export const torpedo = (state, action) => {
-
     switch (action.type) {
-        case 'new-target':
+        case 'set-target':
             return { ...state, target: action.payload }
-        case 'get-target':
-            return { ...state, target: Vector.Polar.diff(action.payload.ship, action.payload.target) }
+        case 'dec-inventory':
+            return { ...state, inventory: state.inventory > 0 ? state.inventory - 1 : state.inventory }
+        case 'set-inventory':
+            return { ...state, inventory: action.payload }
+        case 'clear-target':
+            return { ...state, target: { r: 0, theta: 0 } }
         default:
             return state
     }

@@ -15,6 +15,11 @@ export const sensor = (state, action) => {
             const data = new Set(state.lrs.concat(objs))
             return { ...state, lrs: Array.from(data.values()), selected: 'lrs' }
         }
+        case 'remove-item':
+            let { srs, lrs } = state
+            srs.splice(srs.indexOf(action.payload), 1)
+            lrs.splice(lrs.indexOf(action.payload), 1)
+            return { ...state, srs, lrs }
         default:
             return state
     }
