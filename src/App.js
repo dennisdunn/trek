@@ -1,11 +1,13 @@
 import React from 'react'
-import { Bridge, StoreProvider } from './components'
+import { Bridge, StoreProvider, Game } from './components'
 
 function App() {
   return (
     <div className='App'>
       <StoreProvider>
-        <Bridge />
+        <Game>
+          <Bridge />
+        </Game>
       </StoreProvider>
     </div >
   )

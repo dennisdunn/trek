@@ -33,6 +33,17 @@ export const comms = (state, action) => {
 
 export const damage = (state, action) => {
     switch (action.type) {
+        case 'repair-all':
+            return {
+                srs: 0,
+                lrs: 0,
+                warp: 0,
+                shield: 0,
+                paaser: 0,
+                torpedo: 0,
+                damageControl: 0,
+                libraryComputer: 0,
+            }
         default:
             return state
     }

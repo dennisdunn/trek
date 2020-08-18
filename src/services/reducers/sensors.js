@@ -16,7 +16,8 @@ export const sensor = (state, action) => {
             return { ...state, lrs: Array.from(data.values()), selected: 'lrs' }
         }
         case 'remove-item':
-            let { srs, lrs } = state
+            let srs = [...state.srs]
+            let lrs = [...state.lrs]
             srs.splice(srs.indexOf(action.payload), 1)
             lrs.splice(lrs.indexOf(action.payload), 1)
             return { ...state, srs, lrs }

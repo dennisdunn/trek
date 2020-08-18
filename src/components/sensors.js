@@ -12,21 +12,6 @@ export const Sensors = props => {
     const ship = useShip()
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        const sector = getSectorContaining(sensors.sectors, ship)
-        dispatch('sensors', { type: 'store-sector', payload: sector })
-    }, [ship.position])
-
-    useEffect(() => {
-        const enemies = sensors.srs.filter(o => o.type === 'enemy').length
-        if (enemies > 0) {
-            dispatch('comms', { type: 'log-message', payload: 'CHEKOV: Enemy wessels detected.' })
-            dispatch('status', { type: 'set-alert', payload: 'red' })
-        } else {
-            dispatch('status', { type: 'set-alert', payload: 'green' })
-        }
-    }, [sensors.srs])
-
     return (
         <Fragment>
             <FrameSubtitle text={sensors.sector.name} />
