@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 import { getSectorContaining, shortRangeScan } from '../services'
 import { useDispatch, useGame, useSensors, useShip } from './store'
 
-export const Game = ({ children, ...rest }) => {
+export const Game = ({ children }) => {
     const ship = useShip()
     const game = useGame()
     const sensors = useSensors()

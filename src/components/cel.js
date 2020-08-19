@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 export const CelContext = React.createContext({ width: 300, height: 150 });
-export const LayerContext = React.createContext(null);
 
 export const CelPanel = ({ height, width, init = () => { }, children }) => {
 
