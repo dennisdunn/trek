@@ -10,31 +10,31 @@ export const Game = ({ children }) => {
 
     useEffect(() => {
         const sector = getSectorContaining(sensors.sectors, ship)
-        dispatch('sensors', { type: 'store-sector', payload: sector })
+        dispatch({ sys: 'sensors', type: 'store-sector', payload: sector })
     }, [ship.position])
 
     useEffect(() => {
         const objs = shortRangeScan(game, ship, sensors.sectors)
         if (objs.filter(o => o.type === 'base').length > 0) {
-            dispatch('comms', { type: 'log-message', payload: 'UHURU: Starbase reports refitting complete.' })
-            dispatch('damage', { type: 'repair-all' })
-            dispatch('torpedos', { type: 'set-inventory', payload: 10 })
-            dispatch('warp', { type: 'store-energy', payload: 3000 })
+            dispatch({ sys: 'comms', type: 'log-message', payload: 'UHURU: Starbase reports refitting complete.' })
+            dispatch({ sys: 'damage', type: 'repair-all' })
+            dispatch({ sys: 'torpedos', type: 'set-inventory', payload: 10 })
+            dispatch({ sys: 'warp', type: 'store-energy', payload: 3000 })
         }
     }, [sensors.sector])
 
     useEffect(() => {
         const objs = shortRangeScan(game, ship, sensors.sectors)
         if (objs.filter(o => o.type === 'enemy').length > 0) {
-            dispatch('comms', { type: 'log-message', payload: 'CHEKOV: Enemy wessels detected.' })
-            dispatch('status', { type: 'set-alert', payload: 'red' })
+            dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: Enemy wessels detected.' })
+            dispatch({ sys: 'status', type: 'set-alert', payload: 'red' })
         }
     }, [sensors.sector])
 
     useEffect(() => {
         const objs = shortRangeScan(game, ship, sensors.sectors)
         if (objs.filter(o => o.type === 'enemy').length === 0) {
-            dispatch('status', { type: 'set-alert', payload: 'green' })
+            dispatch({ sys: 'status', type: 'set-alert', payload: 'green' })
         }
     }, [sensors.srs])
 

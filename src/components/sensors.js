@@ -16,16 +16,16 @@ export const Sensors = props => {
         <Fragment>
             <FrameSubtitle text={sensors.sector.name} />
             <FrameButtonBar>
-                <FrameButton onClick={() => dispatch('sensors', { type: 'srs-scan', payload: { game, ship, sensors } })} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => dispatch('sensors', { type: 'lrs-scan', payload: { game, ship } })} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => dispatch({ sys: 'sensors', type: 'srs-scan', payload: { game, ship, sensors } })} className='lcars-hopbush-bg' text='Short Range Scan' />
+                <FrameButton onClick={() => dispatch({ sys: 'sensors', type: 'lrs-scan', payload: { game, ship } })} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <CelPanel height={450} width={450} >
                     {sensors.selected === 'srs'
                         ? <ShortRangeScanner>
-                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => dispatch('torpedos', { type: 'set-target', payload: target })} />)}
+                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => dispatch({ sys: 'torpedos', type: 'set-target', payload: target })} />)}
                         </ShortRangeScanner>
-                        : <LongRangeScanner onclick={e => dispatch('warp', { type: 'new-heading', payload: e2heading(e, ship.position) })} >
+                        : <LongRangeScanner onclick={e => dispatch({ sys: 'warp', type: 'new-heading', payload: e2heading(e, ship.position) })} >
                             {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}
                         </LongRangeScanner>
                     }

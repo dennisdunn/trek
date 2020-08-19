@@ -18,12 +18,12 @@ export const WarpControl = props => {
         if (warp.energy >= energyRequired) {
             const position = Vector.Polar.sum(ship.position, warp.heading)
             const sector = getSectorContaining(sensor.sectors, { ...ship, position })
-            dispatch('ship', { type: 'new-position', payload: position })
-            dispatch('sensors', { type: 'store-sector', payload: sector })
-            dispatch('warp', { type: 'store-energy', payload: warp.energy - energyRequired })
-            dispatch('status', { type: 'inc-stardate', payload: warp.heading.r })
+            dispatch({ sys: 'ship', type: 'new-position', payload: position })
+            dispatch({ sys: 'sensors', type: 'store-sector', payload: sector })
+            dispatch({ sys: 'warp', type: 'store-energy', payload: warp.energy - energyRequired })
+            dispatch({ sys: 'status', type: 'inc-stardate', payload: warp.heading.r })
         } else {
-            dispatch('comms', { type: 'log-message', payload: "SCOTT: We do'na have the energy for this manuever." })
+            dispatch({ sys: 'comms', type: 'log-message', payload: "SCOTT: We do'na have the energy for this manuever." })
         }
     }
 

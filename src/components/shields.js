@@ -13,8 +13,8 @@ export const ShieldControl = props => {
         let available = warp.energy + shields.energy
         if (value <= available) {
             available -= value
-            dispatch('warp', { type: 'store-energy', payload: available })
-            dispatch('shields', { type: 'store-energy', payload: value })
+            dispatch({ sys: 'warp', type: 'store-energy', payload: available })
+            dispatch({ sys: 'shields', type: 'store-energy', payload: value })
         }
     }
 

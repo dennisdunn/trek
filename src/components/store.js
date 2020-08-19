@@ -13,7 +13,6 @@ const defaultDialog = [
     "MCCOY: Damn it, Scotty! I'm a doctor, not an engineer!"
 ]
 
-
 export const Context = createContext()
 
 const useGameState = key => useContext(Context)[key][0]
@@ -31,7 +30,7 @@ export const usePhasers = () => useGameState('phasers')
 
 export const useDispatch = () => {
     const ctx = useContext(Context)
-    return (reducer, action) => ctx[reducer][1](action)
+    return ({ sys, type, payload }) => ctx[sys][1]({ type, payload })
 }
 
 export const StoreProvider = ({ children }) => {

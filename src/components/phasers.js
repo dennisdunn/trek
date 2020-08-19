@@ -18,17 +18,17 @@ export const PhaserControl = props => {
         const targets = sensor.srs.filter(o => o.type === 'enemy')
         targets.forEach(target => {
             let hit = phasers.energy / Vector.Polar.distance(target.position, ship.position) * SCALE_FACTOR
-            dispatch('comms', { type: 'log-message', payload: `SPOCK: ${hit.toFixed(2)} unit hit on target vessel.` })
-            dispatch('phasers', { type: 'deplete-energy', payload: hit })
+            dispatch({ sys: 'comms', type: 'log-message', payload: `SPOCK: ${hit.toFixed(2)} unit hit on target vessel.` })
+            dispatch({ sys: 'phasers', type: 'deplete-energy', payload: hit })
             if (hit > SHIELD_EFFICIENCY * target.shields) {
                 target.shields -= hit
             }
             if (target.shields <= 0) {
-                dispatch('game', { type: 'remove-item', payload: target })
-                dispatch('sensors', { type: 'remove-item', payload: target })
-                dispatch('comms', { type: 'log-message', payload: 'CHEKOV: Enemy wessel destroyed.' })
+                dispatch({ sys: 'game', type: 'remove-item', payload: target })
+                dispatch({ sys: 'sensors', type: 'remove-item', payload: target })
+                dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: Enemy wessel destroyed.' })
             } else {
-                dispatch('comms', { type: 'log-message', payload: `SPOCK: Target shields are at ${target.shields.toFixed(0)}.` })
+                dispatch({ sys: 'comms', type: 'log-message', payload: `SPOCK: Target shields are at ${target.shields.toFixed(0)}.` })
             }
         })
     }
@@ -38,8 +38,8 @@ export const PhaserControl = props => {
         let available = warp.energy + phasers.energy
         if (value <= available) {
             available -= value
-            dispatch('warp', { type: 'store-energy', payload: available })
-            dispatch('phasers', { type: 'store-energy', payload: value })
+            dispatch({ sys: 'warp', type: 'store-energy', payload: available })
+            dispatch({ sys: 'phasers', type: 'store-energy', payload: value })
         }
     }
 

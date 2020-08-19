@@ -22,25 +22,25 @@ export const TorpedoControl = props => {
     const onClick = e => {
         if (torpedo.inventory > 0) {
             const target = sensor.srs.find(o => torpedo.target.r === o.position.r && torpedo.target.theta === o.position.theta)
-            dispatch('torpedos', { type: 'dec-inventory', payload: '' })
-            dispatch('torpedos', { type: 'clear-target', payload: '' })
+            dispatch({ sys: 'torpedos', type: 'dec-inventory', payload: '' })
+            dispatch({ sys: 'torpedos', type: 'clear-target', payload: '' })
             switch (target.type) {
                 case 'base':
-                    dispatch('game', { type: 'remove-item', payload: target })
-                    dispatch('sensors', { type: 'remove-item', payload: target })
-                    dispatch('comms', { type: 'log-message', payload: 'CHEKOV: Direct hit on the starbase!' })
+                    dispatch({ sys: 'game', type: 'remove-item', payload: target })
+                    dispatch({ sys: 'sensors', type: 'remove-item', payload: target })
+                    dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: Direct hit on the starbase!' })
                     break;
                 case 'enemy':
-                    dispatch('game', { type: 'remove-item', payload: target })
-                    dispatch('sensors', { type: 'remove-item', payload: target })
-                    dispatch('comms', { type: 'log-message', payload: 'CHEKOV: Enemy wessel destroyed.' })
+                    dispatch({ sys: 'game', type: 'remove-item', payload: target })
+                    dispatch({ sys: 'sensors', type: 'remove-item', payload: target })
+                    dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: Enemy wessel destroyed.' })
                     break;
                 case 'star':
-                    dispatch('comms', { type: 'log-message', payload: 'CHEKOV: The star absorbed the energy of the torpedo.' })
+                    dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: The star absorbed the energy of the torpedo.' })
                     break;
             }
         } else {
-            dispatch('comms', { type: 'log-message', payload: 'CHEKOV: We have no torpedos left!' })
+            dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: We have no torpedos left!' })
         }
     }
 
