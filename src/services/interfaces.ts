@@ -60,6 +60,12 @@ export interface IEnemy extends IPositionable {
     phaser: number;
 }
 
+export interface IAction {
+    sys: string;
+    type: string;
+    payload: any;
+}
+
 export interface IPolar {
     r: number;
     theta: number;

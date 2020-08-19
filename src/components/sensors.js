@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect } from 'react'
-import { e2heading, getSectorContaining, spritePropsFactory } from '../services'
+import React, { Fragment } from 'react'
+import { spritePropsFactory } from '../services'
+import { doChangeHeading, doLrsScan, doSrsScan, doTargetTorpedo } from '../services/actions'
 import { CelPanel } from './cel'
 import { FrameButton, FrameButtonBar, FrameSubtitle } from './frame'
 import { LongRangeScanner, ShortRangeScanner } from './scanners'
@@ -16,16 +17,16 @@ export const Sensors = props => {
         <Fragment>
             <FrameSubtitle text={sensors.sector.name} />
             <FrameButtonBar>
-                <FrameButton onClick={() => dispatch({ sys: 'sensors', type: 'srs-scan', payload: { game, ship, sensors } })} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => dispatch({ sys: 'sensors', type: 'lrs-scan', payload: { game, ship } })} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => dispatch(doSrsScan(game, ship, sensors))} className='lcars-hopbush-bg' text='Short Range Scan' />
+                <FrameButton onClick={() => dispatch(doLrsScan(game, ship))} className='lcars-hopbush-bg' text='Long Range Scan' />
             </FrameButtonBar>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <CelPanel height={450} width={450} >
                     {sensors.selected === 'srs'
                         ? <ShortRangeScanner>
-                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => dispatch({ sys: 'torpedos', type: 'set-target', payload: target })} />)}
+                            {spritePropsFactory.srs(sensors, ship).map(p => <Sprite {...p} onclick={target => dispatch(doTargetTorpedo(target))} />)}
                         </ShortRangeScanner>
-                        : <LongRangeScanner onclick={e => dispatch({ sys: 'warp', type: 'new-heading', payload: e2heading(e, ship.position) })} >
+                        : <LongRangeScanner onclick={e => dispatch(doChangeHeading(e, ship.position))} >
                             {spritePropsFactory.lrs(sensors, ship).map(p => <Sprite {...p} />)}
                         </LongRangeScanner>
                     }
