@@ -1,12 +1,22 @@
-import React from 'react';
-import { useComms } from './store';
+import React from "react";
+import { useComms } from "./store";
 
-export const Comms = props => {
-    const comms = useComms()
+export const Comms = (props) => {
+  const comms = useComms();
 
-    return (
-        <div style={{ fontSize: '1rem', marginLeft: '1rem', display: 'flex', flexDirection: 'column', marginTop: '1rem' }}>
-            {comms.log.slice(comms.log.length - 2).map(m => (<div>{m}</div>))}
-        </div>
-    );
-}
+  return (
+    <div
+      style={{
+        marginLeft: "1rem",
+        display: "flex",
+        flexDirection: "column-reverse",
+        marginTop: "1rem",
+        overflow: "hidden",
+      }}
+    >
+      {comms.log.map((m) => (
+        <div>{m}</div>
+      ))}
+    </div>
+  );
+};

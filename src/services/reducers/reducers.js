@@ -25,7 +25,7 @@ export const comms = (state, action) => {
         case 'set':
             return { log: action.payload }
         case 'log-message':
-            return { log: [...state.log, action.payload] }
+            return { log: [action.payload,...state.log] }
         default:
             return state
     }
