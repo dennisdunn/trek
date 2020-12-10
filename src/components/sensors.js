@@ -17,8 +17,8 @@ export const Sensors = props => {
         <Fragment>
             <FrameSubtitle text={sensors.sector.name} />
             <FrameButtonBar>
-                <FrameButton onClick={() => dispatch(doSrsScan(game, ship, sensors))} className='lcars-hopbush-bg' text='Short Range Scan' />
-                <FrameButton onClick={() => dispatch(doLrsScan(game, ship))} className='lcars-hopbush-bg' text='Long Range Scan' />
+                <FrameButton onClick={() => dispatch(doSrsScan(game, ship, sensors))} className='lcars-hopbush-bg' text='SRS' />
+                <FrameButton onClick={() => dispatch(doLrsScan(game, ship))} className='lcars-hopbush-bg' text='LRS' />
             </FrameButtonBar>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <CelPanel height={450} width={450} >

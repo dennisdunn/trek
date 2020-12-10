@@ -4,14 +4,12 @@ const styles = {
     title: {
         position: 'absolute',
         right: '1rem',
-        zIndex: 1000,
-        fontSize: '1.2rem'
+        zIndex: 1000
     },
     subtitle: {
         position: 'absolute',
         top: '90%',
-        right: '1rem',
-        fontSize: '1.5rem'
+        right: '1rem'
     },
     frame: {
         border: '1rem solid gray',
@@ -61,10 +59,8 @@ const styles = {
         borderRadius: '0px 16px 16px 0px',
         marginBottom: '16px',
         height: '2rem',
-        width: '5em',
+        width: '5rem',
         display: 'block',
-        fontFamily: 'okuda',
-        fontSize: '1rem',
         cursor: 'pointer',
         zIndex: 2000
     }
