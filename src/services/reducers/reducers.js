@@ -1,4 +1,3 @@
-import Vector from '../vector'
 import { clamp } from '../util'
 
 export const game = (state, action) => {

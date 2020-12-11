@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnnunciatorControl, ControlBox, DisplayControl } from './controls'
+import { AnnunciatorControl, DisplayControl } from './controls'
 import { useStatus } from './store'
 
 export const Status = props => {

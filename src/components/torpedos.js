@@ -38,6 +38,9 @@ export const TorpedoControl = props => {
                 case 'star':
                     dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: The star absorbed the energy of the torpedo.' })
                     break;
+                default:
+                    // no-op
+                    break;
             }
         } else {
             dispatch({ sys: 'comms', type: 'log-message', payload: 'CHEKOV: We have no torpedos left!' })
