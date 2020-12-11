@@ -21,8 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "docker": "docker build -t dennisdunn/trek .",
-    "docker:run": "docker run -p 8080:80 --rm dennisdunn/trek"
+    "docker": "docker build -t trek .",
+    "docker:run": "docker run -p 8080:80 --rm trek"
   },
   "eslintConfig": {
     "extends": "react-app"
