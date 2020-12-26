@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/trek/static/css/main.12d53bfe.chunk.css",
+    "main.css": "/trek/static/css/main.9aba0664.chunk.css",
     "main.js": "/trek/static/js/main.ae70ecaa.chunk.js",
     "main.js.map": "/trek/static/js/main.ae70ecaa.chunk.js.map",
     "runtime-main.js": "/trek/static/js/runtime-main.1f1ce04d.js",
@@ -8,16 +8,16 @@
     "static/js/2.f61826bd.chunk.js": "/trek/static/js/2.f61826bd.chunk.js",
     "static/js/2.f61826bd.chunk.js.map": "/trek/static/js/2.f61826bd.chunk.js.map",
     "index.html": "/trek/index.html",
-    "precache-manifest.c07155a5829ee2af6ab498e6cfa000e3.js": "/trek/precache-manifest.c07155a5829ee2af6ab498e6cfa000e3.js",
+    "precache-manifest.fc3a0c0d5fcf3f90f487c3418983dcef.js": "/trek/precache-manifest.fc3a0c0d5fcf3f90f487c3418983dcef.js",
     "service-worker.js": "/trek/service-worker.js",
-    "static/css/main.12d53bfe.chunk.css.map": "/trek/static/css/main.12d53bfe.chunk.css.map",
+    "static/css/main.9aba0664.chunk.css.map": "/trek/static/css/main.9aba0664.chunk.css.map",
     "static/js/2.f61826bd.chunk.js.LICENSE.txt": "/trek/static/js/2.f61826bd.chunk.js.LICENSE.txt",
     "static/media/spritesheet.png": "/trek/static/media/spritesheet.94c563f0.png"
   },
   "entrypoints": [
     "static/js/runtime-main.1f1ce04d.js",
     "static/js/2.f61826bd.chunk.js",
-    "static/css/main.12d53bfe.chunk.css",
+    "static/css/main.9aba0664.chunk.css",
     "static/js/main.ae70ecaa.chunk.js"
   ]
 }
