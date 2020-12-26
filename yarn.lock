@@ -9245,6 +9245,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rmrf@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/rmrf/-/rmrf-2.0.3.tgz#27fb7bcc06f58c19a0d8b7f3f331f56907fea4f3"
+  integrity sha512-jwOMZmmn/xShLf00SFGnd3TBvbehIBDC7UL14/6ztLDuFhm8vUwq2WckEOzVFbsj4ok6q8xCOkZSKJjDuNh8JQ==
+
 rsvp@^4.8.4:
   version "4.8.5"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"

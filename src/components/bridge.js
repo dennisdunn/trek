@@ -17,12 +17,12 @@ export const Bridge = props => {
   return (
     <div className='bridge'>
       <Frame className='comms lcars-atomic-tangerine-border' type='bottom' justify='left'>
-        <FrameTitle title='Communications Log' />
+        <FrameTitle title='Comms' />
         <Comms />
       </Frame>
 
       <Frame className='status lcars-atomic-tangerine-border' type='bottom' justify='left'>
-        <FrameTitle title='Ship Status' />
+        <FrameTitle title='Status' />
         <Status />
       </Frame>
 
