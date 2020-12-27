@@ -9,6 +9,7 @@ input[type="range"] {
   -webkit-appearance: slider-vertical;
   writing-mode: bt-lr;
   height: 120px;
+  outline: none;
 }
 
 button::-moz-focus-inner {

@@ -19,7 +19,7 @@ export const PhaserControl = props => {
         targets.forEach(target => {
             let hit = phasers.energy / Vector.Polar.distance(target.position, ship.position) * SCALE_FACTOR
             dispatch({ sys: 'comms', type: 'log-message', payload: `SPOCK: ${hit.toFixed(2)} unit hit on target vessel.` })
-            dispatch({ sys: 'phasers', type: 'deplete-energy', payload: hit })
+            dispatch({ sys: 'warp', type: 'deplete-energy', payload: phasers.energy })
             if (hit > SHIELD_EFFICIENCY * target.shields) {
                 target.shields -= hit
             }
