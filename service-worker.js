@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/trek/precache-manifest.21bc3a93e37a8f747b12c0d9a6a87ed2.js"
+  "/trek/precache-manifest.2477c89ab44fcf24de3b4609203772dc.js"
 );
 
 self.addEventListener('message', (event) => {
