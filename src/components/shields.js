@@ -21,8 +21,8 @@ export const ShieldControl = props => {
     return (
         <Fragment>
             <ControlBox>
-                <RangeControl min={0} max={500} value={shields.energy} onInput={handleInput} />
-                <DisplayControl title='Energy' value={shields.energy} />
+                <RangeControl min={0} max={100} value={shields.energy} onInput={handleInput} />
+                <DisplayControl title='Level' value={shields.energy} suffix='%' />
             </ControlBox>
         </Fragment>
     )

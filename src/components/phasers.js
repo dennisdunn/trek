@@ -49,7 +49,7 @@ export const PhaserControl = props => {
                 <FrameButton className='lcars-tamarillo-bg' text='Fire' disabled={sensor.selected !== 'srs'} onClick={onclick} />
             </FrameButtonBar>
             <ControlBox>
-                <RangeControl min={0} max={500} value={phasers.energy} onInput={handleInput} />
+                <RangeControl min={0} max={250} value={phasers.energy} onInput={handleInput} />
                 <DisplayControl title='Energy' value={phasers.energy} />
             </ControlBox>
         </Fragment>

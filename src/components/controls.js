@@ -27,12 +27,12 @@ export const RangeControl = ({ title, onChange = () => { }, ...rest }) => {
     )
 }
 
-export const DisplayControl = ({ title, value, precision = 0, ...rest }) => {
+export const DisplayControl = ({ title, value, precision = 0, suffix='', ...rest }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <p style={{ margin: 0 }}>{title}</p>
             <p style={{ margin: 0 }}>&nbsp;&nbsp;</p>
-            <p style={{ margin: 0 }}>{format(value, precision)}</p>
+            <p style={{ margin: 0 }}>{`${format(value, precision)}${suffix}`}</p>
         </div>
     )
 }
