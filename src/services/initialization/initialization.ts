@@ -100,7 +100,7 @@ export const damage = (): IDamageControl => {
 
 export const sensors = (): ISensors => {
     return {
-        selected: 'srs',
+        selected: 'lrs',
         sector: {
             name: '',
             inner: { r: 0, theta: 0 },

@@ -11,7 +11,7 @@ export const Bridge = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ sys: "sensors", type: "srs-scan", payload: { game, ship } });
+    dispatch({ sys: "sensors", type: "lrs-scan", payload: { game, ship } });
   }, []);
 
   return (

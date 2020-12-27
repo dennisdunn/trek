@@ -12,7 +12,7 @@ export const Sensors = props => {
     const game = useGame()
     const ship = useShip()
     const dispatch = useDispatch()
-
+    
     return (
         <Fragment>
             <FrameSubtitle text={sensors.sector.name} />
