@@ -38,7 +38,7 @@ export const StoreProvider = ({ children }) => {
     phasers: useReducer(Reducers.phaser, Init.phasers()),
   };
 
-  store.sensors[0].lrs = store.game[0].filter((item) => item.type == "base");
+  store.sensors[0].lrs = store.game[0].filter((item) => item.type === "base");
 
   return <Context.Provider value={store}>{children}</Context.Provider>;
 };
